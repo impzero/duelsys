@@ -2,7 +2,7 @@
 {
     public class User
     {
-        public int ID { get; set; }
+        public int Id { get; set; }
         public string FirstName { get; set; }
         public string SecondName { get; set; }
         public string Email { get; set; }
@@ -11,7 +11,7 @@
 
         public User(int id, string firstName, string secondName, string email, string password, bool isAdmin)
         {
-            ID = id;
+            Id = id;
             FirstName = firstName;
             SecondName = secondName;
             Email = email;
