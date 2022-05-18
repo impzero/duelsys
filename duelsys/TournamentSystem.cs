@@ -3,30 +3,36 @@
     public class TournamentSystem
     {
         public int Id { get; set; }
-        public TournamentSystemType Type { get; set; }
+        public string Name { get; set; }
 
-        public TournamentSystem(int id, TournamentSystemType type)
+        public TournamentSystem(int id, string name)
         {
             Id = id;
-            Type = type;
-        }
-    }
-
-    public class TournamentSystemName
-    {
-        public string Name { get; set; }
-        protected TournamentSystemName(string name)
-        {
             Name = name;
         }
     }
-    public class TournamentSystemType : TournamentSystemName
-    {
-        public static TournamentSystemType RoundRobin = new("round-robin");
-        public static TournamentSystemType SomeOtherSystem = new("some-other-system");
 
-        private TournamentSystemType(string name) : base(name)
+    public class TournamentSystemFactory
+    {
+        private delegate TournamentSystem Fn(int id);
+
+        private static readonly Dictionary<string, Fn> TsTypes = new()
         {
+            {
+                TournamentSystemType.RoundRobin,
+                id => new RoundRobin(id)
+            },
+            // ... 
+        };
+        public static TournamentSystem Create(TournamentSystem ts)
+        {
+            return TsTypes[ts.Name](ts.Id);
         }
+    }
+
+    public class TournamentSystemType
+    {
+        public static string RoundRobin = "round-robin";
+        public static string SomeOtherSystem = "some-other-system";
     }
 }
