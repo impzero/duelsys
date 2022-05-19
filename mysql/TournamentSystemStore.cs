@@ -20,7 +20,7 @@ namespace mysql
             while (reader.Read())
             {
                 var id = reader.GetInt32(0);
-                var name = reader.GetString(0);
+                var name = reader.GetString(1);
 
                 ts.Add(TournamentSystemFactory.Create(new TournamentSystem(id, name)));
             }
@@ -35,7 +35,7 @@ namespace mysql
 
             reader.Read();
             var tsId = reader.GetInt32(0);
-            var name = reader.GetString(0);
+            var name = reader.GetString(1);
             return TournamentSystemFactory.Create(new TournamentSystem(tsId, name));
         }
 
