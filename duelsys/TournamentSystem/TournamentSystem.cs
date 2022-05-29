@@ -1,10 +1,14 @@
 ﻿namespace duelsys
 {
+    public interface ITournamentSystem
+    {
+        public List<MatchPair> GenerateSchedule(DateTime tournamentStartDate, DateTime tournamentEndDate, List<User> players);
+    }
+
     public class TournamentSystem
     {
         public int Id { get; set; }
         public string Name { get; set; }
-
         public TournamentSystem(int id, string name)
         {
             Id = id;

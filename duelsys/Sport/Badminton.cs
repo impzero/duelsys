@@ -1,4 +1,4 @@
-﻿namespace duelsys.Sport
+﻿namespace duelsys
 {
     public class Badminton : Sport
     {
