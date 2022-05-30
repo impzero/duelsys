@@ -31,7 +31,6 @@ namespace mysql
             {
                 throw;
             }
-
         }
 
         public int SaveUser(User u)
