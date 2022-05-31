@@ -10,7 +10,6 @@
         public Sport Sport { get; private set; }
         public List<MatchPair> PlayerPairs { get; private set; }
         public List<IMatch> Matches { get; private set; }
-
         public List<User> Players { get; private set; }
         public ITournamentSystem TournamentSystem { get; private set; }
 
@@ -44,9 +43,8 @@
             Players.Add(player);
         }
 
-        public void RegisterGameResult(TournamentMatch match)
+        public void RegisterGameResult(Game g1, Game g2)
         {
-            Matches.Add(match);
         }
     }
 }

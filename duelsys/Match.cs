@@ -1,6 +1,5 @@
 ﻿namespace duelsys
 {
-
     public interface IMatch
     {
         public User GetWinner();
@@ -11,7 +10,6 @@
     {
         public int Id { get; set; }
         public DateTime Date { get; set; }
-
         public User PlayerOne { get; private set; }
         public User PlayerTwo { get; private set; }
         public List<BadmintonGame> PlayerOneGames { get; private set; }
