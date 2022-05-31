@@ -3,16 +3,26 @@
     public class Game
     {
         public int Id { get; set; }
-        public int UserId { get; set; }
-        public int MatchId { get; set; }
-        public string Result { get; set; }
+        public User User { get; set; }
+        protected string Result { get; set; }
 
-        public Game(int id, int userId, int matchId, string result)
+        public Game(int id, User user, string result)
         {
             Id = id;
-            UserId = userId;
-            MatchId = matchId;
+            User = user;
             Result = result;
+        }
+    }
+
+    public class BadmintonGame : Game
+    {
+        public BadmintonGame(int id, User user, string result) : base(id, user, result)
+        {
+        }
+
+        public int GetResult()
+        {
+            return Convert.ToInt32(base.Result);
         }
     }
 }

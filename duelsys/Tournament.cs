@@ -8,7 +8,9 @@
         public DateTime StartingDate { get; private set; }
         public DateTime EndingDate { get; private set; }
         public Sport Sport { get; private set; }
-        public List<MatchPair> Matches { get; private set; }
+        public List<MatchPair> PlayerPairs { get; private set; }
+        public List<IMatch> Matches { get; private set; }
+
         public List<User> Players { get; private set; }
         public ITournamentSystem TournamentSystem { get; private set; }
 
@@ -21,13 +23,14 @@
             EndingDate = endingDate;
             Sport = sport;
             TournamentSystem = tournamentSystem;
-            Matches = new List<MatchPair>();
+            PlayerPairs = new List<MatchPair>();
             Players = new List<User>();
+            Matches = new List<IMatch>();
         }
 
         public void GenerateSchedule()
         {
-            Matches = TournamentSystem.GenerateSchedule(StartingDate, EndingDate, Players);
+            PlayerPairs = TournamentSystem.GenerateSchedule(StartingDate, EndingDate, Players);
         }
 
         public void RegisterPlayer(User player)
@@ -41,9 +44,9 @@
             Players.Add(player);
         }
 
-        public void RegisterGameResult()
+        public void RegisterGameResult(TournamentMatch match)
         {
-
+            Matches.Add(match);
         }
     }
 }
