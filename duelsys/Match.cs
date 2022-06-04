@@ -25,6 +25,16 @@
             PlayerTwoGames = new List<BadmintonGame>();
         }
 
+        public BadmintonMatch(int id, DateTime date, User playerOne, User playerTwo, List<BadmintonGame> playerOneGames, List<BadmintonGame> playerTwoGames)
+        {
+            Id = id;
+            Date = date;
+            PlayerOne = playerOne;
+            PlayerTwo = playerTwo;
+            PlayerOneGames = playerOneGames;
+            PlayerTwoGames = playerTwoGames;
+        }
+
         public void RegisterResult(Game playerOneGame, Game playerTwoGame)
         {
             PlayerOneGames.Add((BadmintonGame)playerOneGame);
@@ -73,15 +83,24 @@
 
     public class MatchPair
     {
+        public int Id { get; private set; }
         public DateTime Date { get; private set; }
         public User FirstPlayer { get; private set; }
         public User SecondPlayer { get; private set; }
+        public List<Game> PlayedGames { get; private set; }
 
         public MatchPair(User firstPlayer, User secondPlayer, DateTime date)
         {
+            Id = Id;
             FirstPlayer = firstPlayer;
             SecondPlayer = secondPlayer;
             Date = date;
+            PlayedGames = new List<Game>();
+        }
+
+        public void RegisterGame(Game g)
+        {
+            PlayedGames.Add(g);
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace duelsys
 {
-    public class Tournament
+    public class TournamentBase
     {
         public int Id { get; private set; }
         public string Description { get; private set; }
@@ -8,12 +8,9 @@
         public DateTime StartingDate { get; private set; }
         public DateTime EndingDate { get; private set; }
         public Sport Sport { get; private set; }
-        public List<MatchPair> PlayerPairs { get; private set; }
-        public List<IMatch> Matches { get; private set; }
-        public List<User> Players { get; private set; }
         public ITournamentSystem TournamentSystem { get; private set; }
 
-        public Tournament(int id, string description, string location, DateTime startingDate, DateTime endingDate, Sport sport, ITournamentSystem tournamentSystem)
+        public TournamentBase(int id, string description, string location, DateTime startingDate, DateTime endingDate, Sport sport, ITournamentSystem tournamentSystem)
         {
             Id = id;
             Description = description;
@@ -22,6 +19,17 @@
             EndingDate = endingDate;
             Sport = sport;
             TournamentSystem = tournamentSystem;
+        }
+    }
+
+    public class Tournament : TournamentBase
+    {
+        public List<MatchPair> PlayerPairs { get; private set; }
+        public List<IMatch> Matches { get; private set; }
+        public List<User> Players { get; private set; }
+
+        public Tournament(int id, string description, string location, DateTime startingDate, DateTime endingDate, Sport sport, ITournamentSystem tournamentSystem) : base(id, description, location, startingDate, endingDate, sport, tournamentSystem)
+        {
             PlayerPairs = new List<MatchPair>();
             Players = new List<User>();
             Matches = new List<IMatch>();
@@ -41,10 +49,6 @@
                 throw new Exception("Maximum number of players for this tournament is already reached!");
 
             Players.Add(player);
-        }
-
-        public void RegisterGameResult(Game g1, Game g2)
-        {
         }
     }
 }

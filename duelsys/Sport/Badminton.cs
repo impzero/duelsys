@@ -2,7 +2,7 @@
 {
     public class Badminton : Sport
     {
-        public Badminton(int id) : base(id, 4, 16)
+        public Badminton(int id, int minPlayersCount, int maxPlayersCount) : base(id, SportType.Badminton, minPlayersCount, maxPlayersCount)
         {
         }
     }

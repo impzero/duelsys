@@ -11,7 +11,7 @@ namespace mysql
 
         public List<TournamentSystem> GetTournamentSystems()
         {
-            var query = "SELECT id, name FROM tournament_system";
+            const string query = "SELECT id, name FROM tournament_system";
             using var reader = MySqlHelper.ExecuteReader(ConnectionUrl, query);
 
             if (!reader.HasRows) return new();
@@ -22,13 +22,13 @@ namespace mysql
                 var id = reader.GetInt32(0);
                 var name = reader.GetString(1);
 
-                ts.Add(TournamentSystemFactory.Create(new TournamentSystem(id, name)));
+                ts.Add(TournamentSystemFactory.Create(name, id));
             }
             return ts;
         }
         public TournamentSystem GetTournamentSystemById(int id)
         {
-            var query = "SELECT id, name FROM tournament_system WHERE id = @id";
+            const string query = "SELECT id, name FROM tournament_system WHERE id = @id";
             using var reader = MySqlHelper.ExecuteReader(ConnectionUrl, query, new MySqlParameter[] { new("id", id) });
 
             if (!reader.HasRows) return null;
@@ -36,7 +36,7 @@ namespace mysql
             reader.Read();
             var tsId = reader.GetInt32(0);
             var name = reader.GetString(1);
-            return TournamentSystemFactory.Create(new TournamentSystem(tsId, name));
+            return TournamentSystemFactory.Create(name, tsId);
         }
 
     }

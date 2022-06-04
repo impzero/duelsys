@@ -12,6 +12,11 @@
             User = user;
             Result = result;
         }
+
+        public virtual string GetResult()
+        {
+            return Result;
+        }
     }
 
     public class BadmintonGame : Game
@@ -20,7 +25,7 @@
         {
         }
 
-        public int GetResult()
+        public new int GetResult()
         {
             return Convert.ToInt32(base.Result);
         }

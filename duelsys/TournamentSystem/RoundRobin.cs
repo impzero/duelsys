@@ -1,12 +1,12 @@
 ﻿namespace duelsys
 {
-    public class RoundRobin : TournamentSystem, ITournamentSystem
+    public class RoundRobin : TournamentSystem
     {
         public RoundRobin(int id) : base(id, TournamentSystemType.RoundRobin)
         {
         }
 
-        public List<MatchPair> GenerateSchedule(DateTime tournamentStartDate, DateTime tournamentEndDate, List<User> players)
+        public override List<MatchPair> GenerateSchedule(DateTime tournamentStartDate, DateTime tournamentEndDate, List<User> players)
         {
             var tournamentDuration = tournamentEndDate.DayOfYear - tournamentStartDate.DayOfYear;
             var totalMatches = (players.Count / 2) * (players.Count - 1);

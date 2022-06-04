@@ -5,15 +5,17 @@
         public List<MatchPair> GenerateSchedule(DateTime tournamentStartDate, DateTime tournamentEndDate, List<User> players);
     }
 
-    public class TournamentSystem
+    public abstract class TournamentSystem : ITournamentSystem
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public TournamentSystem(int id, string name)
+
+        protected TournamentSystem(int id, string name)
         {
             Id = id;
             Name = name;
         }
+        public abstract List<MatchPair> GenerateSchedule(DateTime tournamentStartDate, DateTime tournamentEndDate, List<User> players);
     }
 
     public class TournamentSystemFactory
@@ -28,9 +30,9 @@
             },
             // ... 
         };
-        public static TournamentSystem Create(TournamentSystem ts)
+        public static TournamentSystem Create(string type, int id)
         {
-            return TsTypes[ts.Name](ts.Id);
+            return TsTypes[type](id);
         }
     }
 
