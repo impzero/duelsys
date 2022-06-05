@@ -3,10 +3,10 @@
     public interface IMatch
     {
         public User GetWinner();
-        public void RegisterResult(Game p1, Game p2);
+        public void RegisterResult(IRule rule, Game p1, Game p2);
     }
 
-    public class BadmintonMatch : IMatch
+    public abstract class Match : IMatch
     {
         public int Id { get; set; }
         public DateTime Date { get; set; }
@@ -15,7 +15,16 @@
         public List<BadmintonGame> PlayerOneGames { get; private set; }
         public List<BadmintonGame> PlayerTwoGames { get; private set; }
 
-        public BadmintonMatch(int id, DateTime date, User playerOne, User playerTwo)
+        public Match(int id, DateTime date, User playerOne, User playerTwo)
+        {
+            Id = id;
+            Date = date;
+            PlayerOne = playerOne;
+            PlayerTwo = playerTwo;
+            PlayerOneGames = new List<BadmintonGame>();
+            PlayerTwoGames = new List<BadmintonGame>();
+        }
+        public Match(int id, DateTime date, User playerOne, User playerTwo, List<BadmintonGame> playerOneGames, List<BadmintonGame> playerTwoGames)
         {
             Id = id;
             Date = date;
@@ -25,23 +34,29 @@
             PlayerTwoGames = new List<BadmintonGame>();
         }
 
-        public BadmintonMatch(int id, DateTime date, User playerOne, User playerTwo, List<BadmintonGame> playerOneGames, List<BadmintonGame> playerTwoGames)
+        public abstract User GetWinner();
+        public abstract void RegisterResult(IRule rule, Game g1, Game g2);
+    }
+
+    public class BadmintonMatch : Match
+    {
+        public BadmintonMatch(int id, DateTime date, User playerOne, User playerTwo) : base(id, date, playerOne, playerTwo)
         {
-            Id = id;
-            Date = date;
-            PlayerOne = playerOne;
-            PlayerTwo = playerTwo;
-            PlayerOneGames = playerOneGames;
-            PlayerTwoGames = playerTwoGames;
         }
 
-        public void RegisterResult(Game playerOneGame, Game playerTwoGame)
+        public BadmintonMatch(int id, DateTime date, User playerOne, User playerTwo, List<BadmintonGame> playerOneGames, List<BadmintonGame> playerTwoGames) : base(id, date, playerOne, playerTwo, playerOneGames, playerTwoGames)
         {
+        }
+
+        public override void RegisterResult(IRule rule, Game playerOneGame, Game playerTwoGame)
+        {
+            rule.IsValid(playerOneGame, playerTwoGame);
+
             PlayerOneGames.Add((BadmintonGame)playerOneGame);
             PlayerTwoGames.Add((BadmintonGame)playerTwoGame);
         }
 
-        public User GetWinner()
+        public override User GetWinner()
         {
             if (PlayerOneGames.Count < 3 || PlayerTwoGames.Count < 3)
                 throw new Exception("Minimum of 3 games need to be played in order to determine the winner");
@@ -86,24 +101,15 @@
 
     public class MatchPair
     {
-        public int Id { get; private set; }
         public DateTime Date { get; private set; }
         public User FirstPlayer { get; private set; }
         public User SecondPlayer { get; private set; }
-        public List<Game> PlayedGames { get; private set; }
 
         public MatchPair(User firstPlayer, User secondPlayer, DateTime date)
         {
-            Id = Id;
             FirstPlayer = firstPlayer;
             SecondPlayer = secondPlayer;
             Date = date;
-            PlayedGames = new List<Game>();
-        }
-
-        public void RegisterGame(Game g)
-        {
-            PlayedGames.Add(g);
         }
     }
 }

@@ -91,11 +91,34 @@ WHERE tournament.id = @tournament_id
             var sportMaxPlayers = reader.GetInt32(8);
             var tsId = reader.GetInt32(9);
             var tsName = reader.GetString(10);
+            var pId = reader.GetInt32(11);
+            var pFirstName = reader.GetString(12);
+            var pLastName = reader.GetString(13);
+            var pEmail = reader.GetString(14);
+            var pPassword = reader.GetString(15);
+            var pIsAdmin = reader.GetBoolean(16);
+
 
             var tournamentSystem = TournamentSystemFactory.Create(tsName, tsId);
             var sport = SportFactory.Create(new Sport(sportId, sportName, sportMinPlayers, sportMaxPlayers));
 
-            tournaments.Add(new TournamentBase(id, description, location, startingDate, endingDate, sport, tournamentSystem));
+            var players = new List<User>
+            {
+                new User(pId, pFirstName, pLastName, pEmail, pPassword, pIsAdmin)
+            };
+            while (reader.Read())
+            {
+                pId = reader.GetInt32(11);
+                pFirstName = reader.GetString(12);
+                pLastName = reader.GetString(13);
+                pEmail = reader.GetString(14);
+                pPassword = reader.GetString(15);
+                pIsAdmin = reader.GetBoolean(16);
+
+                players.Add(new User(pId, pFirstName, pLastName, pEmail, pPassword, pIsAdmin));
+            }
+
+            return new Tournament(tId, description, location, startingDate, endingDate, sport, tournamentSystem, players);
         }
     }
 }

@@ -18,6 +18,7 @@
             {
                 for (int j = i + 1; j < players.Count; j++)
                 {
+
                     pairs.Add(new MatchPair(players[i], players[j], tournamentStartDate.AddDays(matchDateOffset)));
                     matchDateOffset += ratio;
                 }

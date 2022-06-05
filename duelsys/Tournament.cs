@@ -25,20 +25,27 @@
     public class Tournament : TournamentBase
     {
         public List<MatchPair> PlayerPairs { get; private set; }
-        public List<IMatch> Matches { get; private set; }
+        public List<Match> Matches { get; private set; }
         public List<User> Players { get; private set; }
 
         public Tournament(int id, string description, string location, DateTime startingDate, DateTime endingDate, Sport sport, ITournamentSystem tournamentSystem) : base(id, description, location, startingDate, endingDate, sport, tournamentSystem)
         {
             PlayerPairs = new List<MatchPair>();
             Players = new List<User>();
-            Matches = new List<IMatch>();
+            Matches = new List<Match>();
         }
+
+        public void RegisterResult(int matchId, Game g1, Game g2)
+        {
+            var match = Matches.Single(m => m.Id == matchId);
+            match?.RegisterResult(Sport.Rule, g1, g2);
+        }
+
         public Tournament(int id, string description, string location, DateTime startingDate, DateTime endingDate, Sport sport, ITournamentSystem tournamentSystem, List<User> players) : base(id, description, location, startingDate, endingDate, sport, tournamentSystem)
         {
             PlayerPairs = new List<MatchPair>();
             Players = players;
-            Matches = new List<IMatch>();
+            Matches = new List<Match>();
         }
 
         public void GenerateSchedule()
