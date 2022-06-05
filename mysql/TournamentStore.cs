@@ -9,6 +9,32 @@ namespace mysql
         {
         }
 
+        public int SaveTournament(TournamentBase t, int sportId, int tsId)
+        {
+            const string query =
+                @"INSERT INTO tournament (description, location, start_date, end_date, sport_id, tournament_system_id)
+VALUES (@description, @location, @start_date, @end_date, @sport_id, @tournament_system_id)";
+
+            try
+            {
+                MySqlHelper.ExecuteNonQuery(ConnectionUrl, query,
+                    new MySqlParameter("description", t.Description),
+                    new MySqlParameter("location", t.Location),
+                    new MySqlParameter("start_date", t.StartingDate),
+                    new MySqlParameter("end_date", t.EndingDate),
+                    new MySqlParameter("sport_id", sportId),
+                    new MySqlParameter("tournament_system_id", tsId)
+                );
+
+                return Convert.ToInt32(MySqlHelper.ExecuteScalar(ConnectionUrl,
+                    "SELECT LAST_INSERT_ID() FROM tournaments"));
+            }
+            catch (Exception)
+            {
+                return -1;
+            }
+        }
+
         public List<TournamentBase> GetTournaments()
         {
             const string query = @"SELECT tournament.id,
@@ -79,7 +105,6 @@ WHERE tournament.id = @tournament_id
             if (!reader.HasRows)
                 throw new Exception("No tournament found");
 
-
             var tId = reader.GetInt32(0);
             var description = reader.GetString(1);
             var location = reader.GetString(2);
@@ -97,7 +122,6 @@ WHERE tournament.id = @tournament_id
             var pEmail = reader.GetString(14);
             var pPassword = reader.GetString(15);
             var pIsAdmin = reader.GetBoolean(16);
-
 
             var tournamentSystem = TournamentSystemFactory.Create(tsName, tsId);
             var sport = SportFactory.Create(new Sport(sportId, sportName, sportMinPlayers, sportMaxPlayers));

@@ -6,7 +6,14 @@
         public string Name { get; set; }
         public int MinPlayersCount { get; set; }
         public int MaxPlayersCount { get; set; }
-        public IGameRule GameRule { get; set; }
+        public IGameRule? GameRule { get; set; }
+        public Sport(int id, string name, int minPlayersCount, int maxPlayersCount)
+        {
+            Id = id;
+            Name = name;
+            MinPlayersCount = minPlayersCount;
+            MaxPlayersCount = maxPlayersCount;
+        }
 
         public Sport(int id, string name, int minPlayersCount, int maxPlayersCount, IGameRule gameRule)
         {
