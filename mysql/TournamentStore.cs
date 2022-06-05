@@ -35,10 +35,34 @@ VALUES (@description, @location, @start_date, @end_date, @sport_id, @tournament_
             }
         }
 
-        //public bool UpdateTournamentById(int id)
-        //{
+        public bool UpdateTournamentById(TournamentBase t, int tsId)
+        {
+            const string query = @"UPDATE tournament
+SET description          = @description,
+    location             = @location,
+    start_date           = @start_date,
+    end_date             = @end_date,
+    tournament_system_id = @tournament_system_id
+WHERE id = @id";
 
-        //}
+            try
+            {
+                MySqlHelper.ExecuteNonQuery(ConnectionUrl, query,
+                    new MySqlParameter("description", t.Description),
+                    new MySqlParameter("location", t.Location),
+                    new MySqlParameter("start_date", t.StartingDate),
+                    new MySqlParameter("end_date", t.EndingDate),
+                    new MySqlParameter("tournament_system_id", tsId),
+                    new MySqlParameter("id", t.Id)
+                );
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+
+            return true;
+        }
 
         public List<TournamentBase> GetTournaments()
         {
