@@ -16,24 +16,27 @@
     {
         public void Assert(Game g1, Game g2)
         {
-            var bg1 = (BadmintonGame)g1;
-            var bg2 = (BadmintonGame)g2;
+            var playerOneScore = ((BadmintonGame)g1).GetResult();
+            var playerTwoScore = ((BadmintonGame)g2).GetResult();
 
-            if (bg1.GetResult() < 21 && bg2.GetResult() < 21)
-                throw new Exception("A game consists of 21 points");
+            if (playerOneScore < 21 && playerTwoScore < 21)
+                throw new Exception("Winner's game score must be at least 21");
 
-            if (bg1.GetResult() > 30 || bg2.GetResult() > 30)
-                throw new Exception("Score cannot be higher than 30");
+            if (playerOneScore > 30 || playerTwoScore > 30)
+                throw new Exception("Maximum score cannot exceed 30");
 
-            if (bg1.GetResult() < 20 || bg2.GetResult() < 20)
+            if (playerOneScore == playerTwoScore)
+                throw new Exception("Game cannot end draw");
+
+            if (playerOneScore < 20 || playerTwoScore < 20)
                 return;
 
-            var abs = Math.Abs(bg1.GetResult() - bg2.GetResult());
+            if (playerOneScore == 30 || playerTwoScore == 30)
+                return;
+
+            var abs = Math.Abs(playerOneScore - playerTwoScore);
             if (abs != 2)
-                throw new Exception(
-                    "Invalid score, game result must end in 2-point lead in order to determine a winner"
-                );
+                throw new Exception("Game difference should be at least of 2 points");
         }
     }
-
 }

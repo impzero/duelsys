@@ -27,13 +27,18 @@ VALUES (@description, @location, @start_date, @end_date, @sport_id, @tournament_
                 );
 
                 return Convert.ToInt32(MySqlHelper.ExecuteScalar(ConnectionUrl,
-                    "SELECT LAST_INSERT_ID() FROM tournaments"));
+                    "SELECT LAST_INSERT_ID() FROM tournament"));
             }
             catch (Exception)
             {
                 return -1;
             }
         }
+
+        //public bool UpdateTournamentById(int id)
+        //{
+
+        //}
 
         public List<TournamentBase> GetTournaments()
         {
