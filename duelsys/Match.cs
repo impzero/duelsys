@@ -50,21 +50,24 @@
                 throw new Exception("Number of games need to match between players");
 
             var gameResult = new Dictionary<User, int>();
-            for (var i = 0; i < PlayerOneGames.Count; i++)
+            foreach (var firstPlayerGames in PlayerOneGames)
             {
-                var playerOneResult = PlayerOneGames[i];
-                var playerTwoResult = PlayerTwoGames[i];
+                foreach (var secondPlayerGames in PlayerTwoGames)
+                {
+                    var playerOneResult = firstPlayerGames;
+                    var playerTwoResult = secondPlayerGames;
 
-                if (playerOneResult.GetResult() > playerTwoResult.GetResult())
-                {
-                    gameResult[playerOneResult.User] += 1;
+                    if (playerOneResult.GetResult() > playerTwoResult.GetResult())
+                    {
+                        gameResult[playerOneResult.User] += 1;
+                    }
+                    else if (playerOneResult.GetResult() < playerTwoResult.GetResult())
+                    {
+                        gameResult[playerTwoResult.User] += 1;
+                    }
+                    else
+                        throw new Exception("Game cannot end in draw");
                 }
-                else if (playerOneResult.GetResult() < playerTwoResult.GetResult())
-                {
-                    gameResult[playerTwoResult.User] += 1;
-                }
-                else
-                    throw new Exception("Game cannot end in draw");
             }
 
             User winner = gameResult.ElementAt(0).Key;

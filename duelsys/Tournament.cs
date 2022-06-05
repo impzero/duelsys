@@ -34,6 +34,12 @@
             Players = new List<User>();
             Matches = new List<IMatch>();
         }
+        public Tournament(int id, string description, string location, DateTime startingDate, DateTime endingDate, Sport sport, ITournamentSystem tournamentSystem, List<User> players) : base(id, description, location, startingDate, endingDate, sport, tournamentSystem)
+        {
+            PlayerPairs = new List<MatchPair>();
+            Players = players;
+            Matches = new List<IMatch>();
+        }
 
         public void GenerateSchedule()
         {
