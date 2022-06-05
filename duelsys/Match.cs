@@ -3,7 +3,7 @@
     public interface IMatch
     {
         public User GetWinner();
-        public void RegisterResult(IRule rule, Game p1, Game p2);
+        public void RegisterResult(IGameRule rule, Game p1, Game p2);
     }
 
     public abstract class Match : IMatch
@@ -35,7 +35,7 @@
         }
 
         public abstract User GetWinner();
-        public abstract void RegisterResult(IRule rule, Game g1, Game g2);
+        public abstract void RegisterResult(IGameRule rule, Game g1, Game g2);
     }
 
     public class BadmintonMatch : Match
@@ -48,9 +48,9 @@
         {
         }
 
-        public override void RegisterResult(IRule rule, Game playerOneGame, Game playerTwoGame)
+        public override void RegisterResult(IGameRule rule, Game playerOneGame, Game playerTwoGame)
         {
-            rule.IsValid(playerOneGame, playerTwoGame);
+            rule.Assert(playerOneGame, playerTwoGame);
 
             PlayerOneGames.Add((BadmintonGame)playerOneGame);
             PlayerTwoGames.Add((BadmintonGame)playerTwoGame);
