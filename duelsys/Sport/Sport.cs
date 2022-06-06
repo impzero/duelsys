@@ -2,7 +2,7 @@
 {
 
 
-    public interface IGameScoringValidator
+    public interface IGameScoreValidator
     {
         void AssertCorrectGameScore(Game g1, Game g2);
     }
@@ -18,7 +18,7 @@
         public string Name { get; set; }
         public int MinPlayersCount { get; set; }
         public int MaxPlayersCount { get; set; }
-        public IGameScoringValidator? GameScoringValidator { get; set; }
+        public IGameScoreValidator? GameScoreValidator { get; set; }
         public IWinnerGetter? WinnerGetter { get; private set; }
 
         public Sport(int id, string name, int minPlayersCount, int maxPlayersCount)
@@ -29,13 +29,13 @@
             MaxPlayersCount = maxPlayersCount;
         }
 
-        public Sport(int id, string name, int minPlayersCount, int maxPlayersCount, IGameScoringValidator gameScoringValidator, IWinnerGetter winnerGetter)
+        public Sport(int id, string name, int minPlayersCount, int maxPlayersCount, IGameScoreValidator gameScoreValidator, IWinnerGetter winnerGetter)
         {
             Id = id;
             Name = name;
             MinPlayersCount = minPlayersCount;
             MaxPlayersCount = maxPlayersCount;
-            GameScoringValidator = gameScoringValidator;
+            GameScoreValidator = gameScoreValidator;
             WinnerGetter = winnerGetter;
         }
     }
