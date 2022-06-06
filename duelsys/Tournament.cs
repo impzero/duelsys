@@ -62,7 +62,6 @@
             return winner;
         }
 
-
         public Tournament(int id, string description, string location, DateTime startingDate, DateTime endingDate, Sport sport, ITournamentSystem tournamentSystem, List<User> players) : base(id, description, location, startingDate, endingDate, sport, tournamentSystem)
         {
             PlayerPairs = new List<MatchPair>();
