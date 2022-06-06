@@ -24,7 +24,7 @@ namespace desktop
             var host = CreateHostBuilder().Build();
             ServiceProvider = host.Services;
 
-            Application.Run(ServiceProvider.GetRequiredService<Form1>());
+            Application.Run(ServiceProvider.GetRequiredService<Login>());
         }
 
         public static IServiceProvider ServiceProvider { get; private set; } = null!;
@@ -34,14 +34,26 @@ namespace desktop
             var connectionUrl = "Server=localhost;Uid=root;Database=duelsys;Pwd=123456";
 
             var userStore = new UserStore(connectionUrl);
+            var tournamentStore = new TournamentStore(connectionUrl);
+            var matchStore = new MatchStore(connectionUrl);
+            var gameStore = new GameStore(connectionUrl);
+            var sportStore = new SportStore(connectionUrl);
+            var tournamentSystemStore = new TournamentSystemStore(connectionUrl);
 
             var aService = new AuthenticationService(userStore);
+            var tService = new TournamentService(tournamentStore, matchStore, gameStore);
+            var tsService = new TournamentSystemService(tournamentSystemStore);
+            var sService = new SportService(sportStore);
 
             return Host.CreateDefaultBuilder()
                 .ConfigureServices((_, services) =>
                 {
                     services.AddSingleton(aService);
-                    services.AddTransient<Form1>();
+                    services.AddSingleton(tService);
+                    services.AddSingleton(tsService);
+                    services.AddSingleton(sService);
+                    services.AddTransient<Login>();
+                    services.AddTransient<Tournaments>();
                 });
         }
     }

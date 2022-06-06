@@ -1,9 +1,8 @@
-﻿namespace duelsys.Interfaces
+﻿namespace duelsys.Interfaces;
+
+public interface IUserStore
 {
-    public interface IUserStore
-    {
-        User GetUserByEmail(string email);
-        User GetUserById(int id);
-        void SaveUser(User u);
-    }
+    User GetUserByEmail(string email);
+    User GetUserById(int id);
+    void SaveUser(User u);
 }

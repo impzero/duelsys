@@ -1,6 +1,6 @@
 ﻿namespace desktop
 {
-    partial class Form1
+    partial class Login
     {
         /// <summary>
         ///  Required designer variable.
@@ -91,7 +91,7 @@
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.button1);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "duelsys admin";
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -20,6 +20,14 @@
             Sport = sport;
             TournamentSystem = tournamentSystem;
         }
+        public TournamentBase(string description, string location, DateTime startingDate, DateTime endingDate)
+        {
+            Description = description;
+            Location = location;
+            StartingDate = startingDate;
+            EndingDate = endingDate;
+        }
+
     }
 
     public class Tournament : TournamentBase

@@ -1,11 +1,12 @@
 using duelsys.Services;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace desktop
 {
-    public partial class Form1 : Form
+    public partial class Login : Form
     {
         public AuthenticationService aService;
-        public Form1(AuthenticationService aService)
+        public Login(AuthenticationService aService)
         {
             this.aService = aService;
             InitializeComponent();
@@ -19,10 +20,16 @@ namespace desktop
             try
             {
                 var u = aService.Login(email, password);
-                if (u.IsAdmin)
-                {
-                    MessageBox.Show("Hello, " + u.FirstName);
-                }
+                if (!u.IsAdmin)
+                    throw new Exception("You must be an admin in order to manage tournaments");
+
+                var tForm = Program.ServiceProvider.GetRequiredService<Tournaments>();
+
+                tForm.FormClosed += (_, _) => Show();
+
+                Hide();
+                tForm.ShowDialog();
+
             }
             catch (Exception exception)
             {
