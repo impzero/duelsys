@@ -35,12 +35,15 @@
             Matches = new List<Match>();
         }
 
-        public Match? RegisterResult(int matchId, Game g1, Game g2)
+        public Match RegisterResult(int matchId, Game g1, Game g2)
         {
             var match = Matches.Single(m => m.Id == matchId);
 
+            if (match is null)
+                throw new Exception("Match was not found");
+
             if (Sport.GameRule != null)
-                match?.RegisterResult(Sport.GameRule, g1, g2);
+                match.RegisterResult(Sport.GameRule, g1, g2);
 
             return match;
         }

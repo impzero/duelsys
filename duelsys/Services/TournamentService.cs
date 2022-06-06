@@ -52,18 +52,23 @@ namespace duelsys.Services
             }
         }
 
-        public void RegisterGameResult(bool isAdmin, int tournamentId, int matchId, Game g1, Game g2)
+        public void RegisterMatchResult(bool isAdmin, int tournamentId, int matchId, Game g1, Game g2)
         {
             if (!isAdmin)
                 throw new Exception("User must be an admin in order to register game result");
 
             var t = TournamentStore.GetTournamentById(tournamentId);
+            var match = t.RegisterResult(matchId, g1, g2);
 
-            // 
-            var g1Id = GameStore.SaveGame(g1, matchId);
-            var g2Id = GameStore.SaveGame(g2, matchId);
-
-            t.RegisterResult(matchId, g1, g2);
+            try
+            {
+                MatchStore.SaveMatchResult(match.Id, g1, g2);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw new Exception("Failed to register match result");
+            }
         }
     }
 }

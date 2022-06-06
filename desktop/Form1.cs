@@ -6,5 +6,11 @@ namespace desktop
         {
             InitializeComponent();
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            var email = textBox1.Text;
+            var password = textBox2.Text;
+        }
     }
 }

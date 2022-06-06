@@ -23,6 +23,5 @@
         {
             return BCrypt.Net.BCrypt.Verify(password, this.Password);
         }
-
     }
 }
