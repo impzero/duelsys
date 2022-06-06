@@ -29,6 +29,7 @@ namespace mysql
 
             return new User(userId, firstName, lastName, uEmail, password, isAdmin);
         }
+
         public User GetUserById(int id)
         {
             string query = @"SELECT id, email, first_name, last_name, password, is_admin FROM users WHERE id=@id";
@@ -46,16 +47,20 @@ namespace mysql
             return new User(userId, firstName, lastName, email, password, isAdmin);
         }
 
-        public int SaveUser(User u)
+        public void SaveUser(User u)
         {
             const string query = @"INSERT INTO users (email, first_name, last_name, password, is_admin) VALUES 
 (@email, @first_name, @last_name, @password, @is_admin)";
 
-            var id = Convert.ToInt32(MySqlHelper.ExecuteScalar(
+            MySqlHelper.ExecuteNonQuery
+            (
                 ConnectionUrl,
-                query, new MySqlParameter("first_name", u.FirstName), new MySqlParameter("last_name", u.LastName), new MySqlParameter("password", u.Password), new MySqlParameter("is_admin", u.IsAdmin))
+                query,
+                new MySqlParameter("first_name", u.FirstName),
+                new MySqlParameter("last_name", u.LastName),
+                new MySqlParameter("password", u.Password),
+                new MySqlParameter("is_admin", u.IsAdmin)
             );
-            return id;
         }
     }
 }

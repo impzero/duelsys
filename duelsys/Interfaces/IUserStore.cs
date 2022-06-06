@@ -4,6 +4,6 @@
     {
         User GetUserByEmail(string email);
         User GetUserById(int id);
-        int SaveUser(User u);
+        void SaveUser(User u);
     }
 }

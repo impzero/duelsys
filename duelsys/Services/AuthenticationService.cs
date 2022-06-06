@@ -2,7 +2,7 @@
 
 namespace duelsys.Services
 {
-    class AuthenticationService
+    public class AuthenticationService
     {
         public IUserStore UserStore { get; private set; }
 
@@ -28,9 +28,20 @@ namespace duelsys.Services
             }
         }
 
-        public void Register(User u)
+        public void Register(string firstName, string lastName, string email, string password)
         {
-            // some code here ;p
+            var bcryptPassword = BCrypt.Net.BCrypt.HashPassword(password, BCrypt.Net.BCrypt.GenerateSalt(12));
+            if (bcryptPassword is null)
+                throw new Exception("Error while hashing password");
+            try
+            {
+                UserStore.SaveUser(new User(firstName, lastName, email, bcryptPassword));
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
     }
 }

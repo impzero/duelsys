@@ -18,6 +18,15 @@
             Password = password;
             IsAdmin = isAdmin;
         }
+        public User(string firstName, string lastName, string email, string password)
+        {
+            FirstName = firstName;
+            LastName = lastName;
+            Email = email;
+            Password = password;
+            IsAdmin = false;
+        }
+
 
         public bool ValidatePassword(string password)
         {
