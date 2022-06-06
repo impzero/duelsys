@@ -18,8 +18,7 @@ namespace duelsys.Services
         public Tournament EditTournament(bool isAdmin, TournamentBase t, int tsId)
         {
             if (!isAdmin)
-                throw new Exception("User must be an admin in order to edit update");
-
+                throw new Exception("User must be an admin in order to edit");
 
             if (!TournamentStore.UpdateTournamentById(t, tsId))
                 throw new Exception("There was an error updating the tournament");
@@ -30,6 +29,7 @@ namespace duelsys.Services
         public void GenerateSchedule(MatchPair mp, int tId)
         {
             var t = TournamentStore.GetTournamentById(tId);
+
 
         }
     }
