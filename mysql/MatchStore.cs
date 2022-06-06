@@ -1,9 +1,10 @@
 ﻿using duelsys;
+using duelsys.Interfaces;
 using MySql.Data.MySqlClient;
 
 namespace mysql
 {
-    public class MatchStore : MySqlStore
+    public class MatchStore : MySqlStore, IMatchStore
     {
         public MatchStore(string connectionUrl) : base(connectionUrl)
         {
@@ -14,11 +15,79 @@ namespace mysql
             public Match(DateTime playDate, int matchId)
             {
                 PlayDate = playDate;
-                MatchId = matchId;
+                _matchId = matchId;
             }
 
             public DateTime PlayDate { get; }
-            private int MatchId { get; }
+            private readonly int _matchId;
+        }
+
+        public void SaveMatch(MatchPair mp, int tId)
+        {
+            var mysqlConn = new MySqlConnection(ConnectionUrl);
+            mysqlConn.Open();
+
+            var cmd = mysqlConn.CreateCommand();
+            var myTrans = mysqlConn.BeginTransaction();
+
+            cmd.Connection = mysqlConn;
+            cmd.Transaction = myTrans;
+            try
+            {
+                cmd.CommandText = @"INSERT INTO `match` (date) VALUES (@date)";
+
+                cmd.Parameters.AddWithValue("@date", mp.Date);
+                cmd.ExecuteNonQuery();
+                cmd.Parameters.Clear();
+
+                cmd.CommandText = @"SELECT LAST_INSERT_ID() FROM match";
+                var mId = Convert.ToInt32(cmd.ExecuteScalar());
+
+                cmd.CommandText = @"INSERT INTO user_tournament_match (user_id, tournament_id, match_id)
+                VALUES(@user_id, @tournament_id, @match_id)";
+
+                cmd.Parameters.AddWithValue("@user_id", mp.FirstPlayer.Id);
+                cmd.Parameters.AddWithValue("@tournament_id", tId);
+                cmd.Parameters.AddWithValue("@match_id", mId);
+                cmd.ExecuteNonQuery();
+                cmd.Parameters.Clear();
+
+                cmd.CommandText = @"INSERT INTO user_tournament_match (user_id, tournament_id, match_id)
+                VALUES(@user_id, @tournament_id, @match_id)";
+
+                cmd.Parameters.AddWithValue("@user_id", mp.SecondPlayer.Id);
+                cmd.Parameters.AddWithValue("@tournament_id", tId);
+                cmd.Parameters.AddWithValue("@match_id", mId);
+                cmd.ExecuteNonQuery();
+                cmd.Parameters.Clear();
+
+                myTrans.Commit();
+            }
+            catch (Exception e)
+            {
+                try
+                {
+                    myTrans.Rollback();
+                }
+                catch (Exception ex)
+                {
+                    if (myTrans.Connection != null)
+                    {
+                        Console.WriteLine("An exception of type " + ex.GetType() +
+                                          " was encountered while attempting to roll back the transaction.");
+                        throw;
+                    }
+                }
+
+                Console.WriteLine("An exception of type " + e.GetType() +
+                                  " was encountered while inserting the data.");
+                Console.WriteLine("Neither record was written to database.");
+                throw;
+            }
+            finally
+            {
+                mysqlConn.Close();
+            }
         }
 
         public List<MatchPair> GetAllMatchesByTournamentId(int tId)
