@@ -2,19 +2,59 @@
 {
     public class Badminton : Sport
     {
-        public Badminton(int id, int minPlayersCount, int maxPlayersCount) : base(id, SportType.Badminton, minPlayersCount, maxPlayersCount, new BadmintonScoreRule())
+        public Badminton(int id, int minPlayersCount, int maxPlayersCount) : base(id, SportType.Badminton, minPlayersCount, maxPlayersCount, new BadmintonScoreValidator(), new BadmintonWinnerGetter())
         {
         }
     }
 
-    public interface IGameRule
+    public class BadmintonWinnerGetter : IWinnerGetter
     {
-        public void Assert(Game g1, Game g2);
-    }
+        public User DecideWinner(List<Game> playerOneGames, List<Game> playerTwoGames)
+        {
+            if (playerOneGames.Count < 3 || playerTwoGames.Count < 3)
+                throw new Exception("Minimum of 3 games need to be played in order to determine the winner");
 
-    public class BadmintonScoreRule : IGameRule
+            if (playerOneGames.Count != playerTwoGames.Count)
+                throw new Exception("Number of games need to match between players");
+
+            var gameResult = new Dictionary<User, int>();
+            foreach (var firstPlayerGame in playerOneGames)
+            {
+                foreach (var secondPlayerGame in playerTwoGames)
+                {
+                    var playerOneResult = new BadmintonGame(firstPlayerGame);
+                    var playerTwoResult = new BadmintonGame(secondPlayerGame);
+
+                    if (playerOneResult.GetResult() > playerTwoResult.GetResult())
+                    {
+                        gameResult[playerOneResult.User] += 1;
+                    }
+                    else if (playerOneResult.GetResult() < playerTwoResult.GetResult())
+                    {
+                        gameResult[playerTwoResult.User] += 1;
+                    }
+                    else
+                        throw new Exception("Game cannot end in draw");
+                }
+            }
+
+            var winner = gameResult.ElementAt(0).Key;
+            var score = 0;
+            foreach (var result in gameResult)
+            {
+                if (result.Value >= score)
+                {
+                    winner = result.Key;
+                    score = result.Value;
+                }
+            }
+
+            return winner;
+        }
+    }
+    public class BadmintonScoreValidator : IGameScoreValidator
     {
-        public void Assert(Game g1, Game g2)
+        public void AssertCorrectGameScore(Game g1, Game g2)
         {
             var playerOneScore = ((BadmintonGame)g1).GetResult();
             var playerTwoScore = ((BadmintonGame)g2).GetResult();

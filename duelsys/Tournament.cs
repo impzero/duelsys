@@ -42,11 +42,26 @@
             if (match is null)
                 throw new Exception("Match was not found");
 
-            if (Sport.GameRule != null)
-                match.RegisterResult(Sport.GameRule, g1, g2);
+            if (Sport.GameScoreValidator != null)
+                match.RegisterResult(Sport.GameScoreValidator, g1, g2);
 
             return match;
         }
+
+        public User GetMatchWinner(int matchId)
+        {
+            var match = Matches.Single(m => m.Id == matchId);
+
+            if (match is null)
+                throw new Exception("Match was not found");
+
+            User winner = null!;
+            if (Sport.WinnerGetter != null)
+                winner = match.GetWinner(Sport.WinnerGetter);
+
+            return winner;
+        }
+
 
         public Tournament(int id, string description, string location, DateTime startingDate, DateTime endingDate, Sport sport, ITournamentSystem tournamentSystem, List<User> players) : base(id, description, location, startingDate, endingDate, sport, tournamentSystem)
         {

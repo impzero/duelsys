@@ -25,6 +25,11 @@
         {
         }
 
+        public BadmintonGame(Game g) : base(g.Id, g.User, g.GetResult())
+        {
+
+        }
+
         public new int GetResult()
         {
             return Convert.ToInt32(base.Result);
