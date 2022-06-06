@@ -35,10 +35,14 @@
             Matches = new List<Match>();
         }
 
-        public void RegisterResult(int matchId, Game g1, Game g2)
+        public Match? RegisterResult(int matchId, Game g1, Game g2)
         {
             var match = Matches.Single(m => m.Id == matchId);
-            if (Sport.GameRule != null) match?.RegisterResult(Sport.GameRule, g1, g2);
+
+            if (Sport.GameRule != null)
+                match?.RegisterResult(Sport.GameRule, g1, g2);
+
+            return match;
         }
 
         public Tournament(int id, string description, string location, DateTime startingDate, DateTime endingDate, Sport sport, ITournamentSystem tournamentSystem, List<User> players) : base(id, description, location, startingDate, endingDate, sport, tournamentSystem)
