@@ -3,7 +3,7 @@ using MySql.Data.MySqlClient;
 
 namespace mysql
 {
-    public class UserStore : MySql
+    public class UserStore : MySqlStore
     {
         public UserStore(string connectionUrl) : base(connectionUrl)
         {

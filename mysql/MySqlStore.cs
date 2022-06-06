@@ -1,10 +1,10 @@
 ﻿namespace mysql
 {
-    public class MySql
+    public class MySqlStore
     {
         public string ConnectionUrl { get; }
 
-        public MySql(string connectionUrl)
+        public MySqlStore(string connectionUrl)
         {
             ConnectionUrl = connectionUrl;
         }

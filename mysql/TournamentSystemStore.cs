@@ -3,7 +3,7 @@ using MySql.Data.MySqlClient;
 
 namespace mysql
 {
-    public class TournamentSystemStore : MySql
+    public class TournamentSystemStore : MySqlStore
     {
         public TournamentSystemStore(string connectionUrl) : base(connectionUrl)
         {
