@@ -1,9 +1,10 @@
 ﻿using duelsys;
+using duelsys.Interfaces;
 using MySql.Data.MySqlClient;
 
 namespace mysql
 {
-    public class TournamentStore : MySql
+    public class TournamentStore : MySql, ITournamentStore
     {
         public TournamentStore(string connectionUrl) : base(connectionUrl)
         {
