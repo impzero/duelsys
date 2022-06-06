@@ -2,6 +2,6 @@
 
 public interface IMatchStore
 {
-    void SaveMatch(MatchPair mp, int tId);
+    void SaveMatches(List<MatchPair> mps, int tId);
     List<MatchPair> GetAllMatchesByTournamentId(int tId);
 }

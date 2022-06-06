@@ -50,6 +50,10 @@
 
         public void GenerateSchedule()
         {
+            if (Players.Count < Sport.MinPlayersCount && Sport.MaxPlayersCount < Players.Count)
+                throw new Exception(
+                    "Cannot generate schedule for this tournament. Players don't comply with sport rules");
+
             PlayerPairs = TournamentSystem.GenerateSchedule(StartingDate, EndingDate, Players);
         }
 

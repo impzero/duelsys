@@ -26,11 +26,23 @@ namespace duelsys.Services
             return TournamentStore.GetTournamentById(t.Id);
         }
 
-        public void GenerateSchedule(MatchPair mp, int tId)
+        public void GenerateSchedule(bool isAdmin, int tId)
         {
+            if (!isAdmin)
+                throw new Exception("User must be an admin in order to generate schedule");
+
             var t = TournamentStore.GetTournamentById(tId);
+            t.GenerateSchedule();
 
-
+            try
+            {
+                MatchStore.SaveMatches(t.PlayerPairs, tId);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw new Exception("Failed to generate schedule");
+            }
         }
     }
 }

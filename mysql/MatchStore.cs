@@ -22,7 +22,7 @@ namespace mysql
             private readonly int _matchId;
         }
 
-        public void SaveMatch(MatchPair mp, int tId)
+        public void SaveMatches(List<MatchPair> mps, int tId)
         {
             var mysqlConn = new MySqlConnection(ConnectionUrl);
             mysqlConn.Open();
@@ -34,32 +34,35 @@ namespace mysql
             cmd.Transaction = myTrans;
             try
             {
-                cmd.CommandText = @"INSERT INTO `match` (date) VALUES (@date)";
+                foreach (var matchPair in mps)
+                {
+                    cmd.CommandText = @"INSERT INTO `match` (date) VALUES (@date)";
 
-                cmd.Parameters.AddWithValue("@date", mp.Date);
-                cmd.ExecuteNonQuery();
-                cmd.Parameters.Clear();
+                    cmd.Parameters.AddWithValue("@date", matchPair.Date);
+                    cmd.ExecuteNonQuery();
+                    cmd.Parameters.Clear();
 
-                cmd.CommandText = @"SELECT LAST_INSERT_ID() FROM match";
-                var mId = Convert.ToInt32(cmd.ExecuteScalar());
+                    cmd.CommandText = @"SELECT LAST_INSERT_ID() FROM match";
+                    var mId = Convert.ToInt32(cmd.ExecuteScalar());
 
-                cmd.CommandText = @"INSERT INTO user_tournament_match (user_id, tournament_id, match_id)
+                    cmd.CommandText = @"INSERT INTO user_tournament_match (user_id, tournament_id, match_id)
                 VALUES(@user_id, @tournament_id, @match_id)";
 
-                cmd.Parameters.AddWithValue("@user_id", mp.FirstPlayer.Id);
-                cmd.Parameters.AddWithValue("@tournament_id", tId);
-                cmd.Parameters.AddWithValue("@match_id", mId);
-                cmd.ExecuteNonQuery();
-                cmd.Parameters.Clear();
+                    cmd.Parameters.AddWithValue("@user_id", matchPair.FirstPlayer.Id);
+                    cmd.Parameters.AddWithValue("@tournament_id", tId);
+                    cmd.Parameters.AddWithValue("@match_id", mId);
+                    cmd.ExecuteNonQuery();
+                    cmd.Parameters.Clear();
 
-                cmd.CommandText = @"INSERT INTO user_tournament_match (user_id, tournament_id, match_id)
+                    cmd.CommandText = @"INSERT INTO user_tournament_match (user_id, tournament_id, match_id)
                 VALUES(@user_id, @tournament_id, @match_id)";
 
-                cmd.Parameters.AddWithValue("@user_id", mp.SecondPlayer.Id);
-                cmd.Parameters.AddWithValue("@tournament_id", tId);
-                cmd.Parameters.AddWithValue("@match_id", mId);
-                cmd.ExecuteNonQuery();
-                cmd.Parameters.Clear();
+                    cmd.Parameters.AddWithValue("@user_id", matchPair.SecondPlayer.Id);
+                    cmd.Parameters.AddWithValue("@tournament_id", tId);
+                    cmd.Parameters.AddWithValue("@match_id", mId);
+                    cmd.ExecuteNonQuery();
+                    cmd.Parameters.Clear();
+                }
 
                 myTrans.Commit();
             }
