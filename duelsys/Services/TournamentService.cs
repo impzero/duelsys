@@ -13,6 +13,13 @@ namespace duelsys.Services
             MatchStore = matchStore;
         }
 
+        public int CreateTournament(bool isAdmin, TournamentBase t, int sportId, int tournamentSystemId)
+        {
+            if (!isAdmin)
+                throw new Exception("User must be an admin in order to create a tournament");
+
+            return TournamentStore.SaveTournament(t, sportId, tournamentSystemId);
+        }
         public List<TournamentBase> GetTournaments() => TournamentStore.GetTournaments();
         public Tournament GetTournamentById(int id) => TournamentStore.GetTournamentById(id);
         public Tournament EditTournament(bool isAdmin, TournamentBase t, int tsId)
