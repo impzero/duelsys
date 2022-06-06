@@ -16,7 +16,6 @@ namespace duelsys.Services
             try
             {
                 var user = UserStore.GetUserByEmail(email);
-
                 if (!user.ValidatePassword(password))
                     throw new Exception("Wrong password");
 
