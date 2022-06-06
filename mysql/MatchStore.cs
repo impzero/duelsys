@@ -24,35 +24,39 @@ namespace mysql
 
         public void SaveMatches(List<MatchPair> mps, int tId)
         {
-            ExecuteInTx((cmd) =>
+            ExecuteInTx(cmd =>
             {
                 foreach (var matchPair in mps)
                 {
                     cmd.CommandText = @"INSERT INTO `match` (date) VALUES (@date)";
-
                     cmd.Parameters.AddWithValue("@date", matchPair.Date);
+
                     cmd.ExecuteNonQuery();
+
                     cmd.Parameters.Clear();
 
                     cmd.CommandText = @"SELECT LAST_INSERT_ID() FROM match";
+
                     var mId = Convert.ToInt32(cmd.ExecuteScalar());
 
                     cmd.CommandText = @"INSERT INTO user_tournament_match (user_id, tournament_id, match_id)
                 VALUES(@user_id, @tournament_id, @match_id)";
-
                     cmd.Parameters.AddWithValue("@user_id", matchPair.FirstPlayer.Id);
                     cmd.Parameters.AddWithValue("@tournament_id", tId);
                     cmd.Parameters.AddWithValue("@match_id", mId);
+
                     cmd.ExecuteNonQuery();
+
                     cmd.Parameters.Clear();
 
                     cmd.CommandText = @"INSERT INTO user_tournament_match (user_id, tournament_id, match_id)
                 VALUES(@user_id, @tournament_id, @match_id)";
-
                     cmd.Parameters.AddWithValue("@user_id", matchPair.SecondPlayer.Id);
                     cmd.Parameters.AddWithValue("@tournament_id", tId);
                     cmd.Parameters.AddWithValue("@match_id", mId);
+
                     cmd.ExecuteNonQuery();
+
                     cmd.Parameters.Clear();
                 }
             });
@@ -60,17 +64,32 @@ namespace mysql
 
         public void SaveMatchResult(int matchId, Game g1, Game g2)
         {
-
-            const string query = @"INSERT INTO game (user_id, result, match_id)
+            ExecuteInTx(cmd =>
+            {
+                cmd.CommandText = @"INSERT INTO game (user_id, result, match_id)
 VALUES (@user_id, @result, @match_id)";
+                cmd.Parameters.AddWithValue("@user_id", g1.User.Id);
+                cmd.Parameters.AddWithValue("@result", g1.GetResult());
+                cmd.Parameters.AddWithValue("@match_id", matchId);
 
-            MySqlHelper.ExecuteNonQuery(ConnectionUrl, query,
-                new MySqlParameter("user_id", g.User.Id),
-                new MySqlParameter("result", g.GetResult()),
-                new MySqlParameter("match_id", mId)
-            );
+                cmd.ExecuteNonQuery();
 
-            return Convert.ToInt32(MySqlHelper.ExecuteScalar(ConnectionUrl, "SELECT LAST_INSERT_ID() FROM game"));
+                cmd.CommandText = "SELECT LAST_INSERT_ID() FROM game";
+
+                var g1Id = Convert.ToInt32(cmd.ExecuteScalar());
+
+                cmd.CommandText = @"INSERT INTO game (user_id, result, match_id)
+VALUES (@user_id, @result, @match_id)";
+                cmd.Parameters.AddWithValue("@user_id", g2.User.Id);
+                cmd.Parameters.AddWithValue("@result", g2.GetResult());
+                cmd.Parameters.AddWithValue("@match_id", matchId);
+
+                cmd.ExecuteNonQuery();
+
+                cmd.CommandText = "SELECT LAST_INSERT_ID() FROM game";
+
+                var g2Id = Convert.ToInt32(cmd.ExecuteScalar());
+            });
         }
 
         public List<MatchPair> GetAllMatchesByTournamentId(int tId)
