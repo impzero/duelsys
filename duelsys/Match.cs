@@ -2,7 +2,7 @@
 {
     public interface IMatch
     {
-        public User GetWinner(IWinnerGetter winnerGetter);
+        public UserBase GetWinner(IWinnerGetter winnerGetter);
         public void RegisterResult(IGameScoreValidator scoreValidator, Game p1, Game p2);
     }
 
@@ -42,7 +42,7 @@
             PlayerTwoGames.Add(new BadmintonGame(playerTwoGame));
         }
 
-        public User GetWinner(IWinnerGetter winnerGetter)
+        public UserBase GetWinner(IWinnerGetter winnerGetter)
         {
             return winnerGetter.DecideWinner(PlayerOneGames, PlayerTwoGames);
         }
@@ -51,10 +51,10 @@
     public class MatchPair
     {
         public DateTime Date { get; private set; }
-        public User FirstPlayer { get; private set; }
-        public User SecondPlayer { get; private set; }
+        public UserBase FirstPlayer { get; private set; }
+        public UserBase SecondPlayer { get; private set; }
 
-        public MatchPair(User firstPlayer, User secondPlayer, DateTime date)
+        public MatchPair(UserBase firstPlayer, UserBase secondPlayer, DateTime date)
         {
             FirstPlayer = firstPlayer;
             SecondPlayer = secondPlayer;

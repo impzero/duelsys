@@ -6,7 +6,7 @@
         {
         }
 
-        public override List<MatchPair> GenerateSchedule(DateTime tournamentStartDate, DateTime tournamentEndDate, List<User> players)
+        public override List<MatchPair> GenerateSchedule(DateTime tournamentStartDate, DateTime tournamentEndDate, List<UserBase> players)
         {
             var tournamentDuration = tournamentEndDate.DayOfYear - tournamentStartDate.DayOfYear;
             var totalMatches = (players.Count / 2) * (players.Count - 1);

@@ -105,7 +105,7 @@ WHERE utm.tournament_id = @1";
             if (!reader.HasRows)
                 return new();
 
-            var playersPerMatch = new Dictionary<Match, List<User>>();
+            var playersPerMatch = new Dictionary<Match, List<UserBase>>();
             while (reader.Read())
             {
                 var mId = reader.GetInt32(0);
@@ -114,15 +114,12 @@ WHERE utm.tournament_id = @1";
                 var pId = reader.GetInt32(11);
                 var pFirstName = reader.GetString(12);
                 var pLastName = reader.GetString(13);
-                var pEmail = reader.GetString(14);
-                var pPassword = reader.GetString(15);
-                var pIsAdmin = reader.GetBoolean(16);
 
-                var user = new User(pId, pFirstName, pLastName, pEmail, pPassword, pIsAdmin);
+                var user = new UserBase(pId, pFirstName, pLastName);
                 var match = new Match(mDate, mId);
 
                 if (!playersPerMatch.ContainsKey(match))
-                    playersPerMatch[match] = new List<User>();
+                    playersPerMatch[match] = new List<UserBase>();
 
                 playersPerMatch[match].Add(user);
             }

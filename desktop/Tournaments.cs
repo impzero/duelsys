@@ -63,9 +63,15 @@ namespace desktop
             var startingDate = dateTimePicker1.Value;
             var endingDate = dateTimePicker2.Value;
 
-            var args = new TournamentService.CreateTournamentArgs(description, location, startingDate, endingDate, sportId, tsId);
-
-            tService.CreateTournament(true, args);
+            try
+            {
+                var args = new TournamentService.CreateTournamentArgs(description, location, startingDate, endingDate, sportId, tsId);
+                tService.CreateTournament(true, args);
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.Message);
+            }
             RefetchHomePage();
         }
 

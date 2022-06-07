@@ -18,8 +18,8 @@ namespace duelsys_test
         public void Assert_ValidScore(string scoreOne, string scoreTwo)
         {
             var rule = new BadmintonScoreValidator();
-            var u1 = new User(1, "broski", "with everything", "everything@hizmet.everything", "123", true);
-            var u2 = new User(1, "iii", "everything", "skadsdjs@hizmet.everything", "123", false);
+            var u1 = new UserBase(1, "broski", "with everything");
+            var u2 = new UserBase(1, "iii", "everything");
 
             var g1 = new BadmintonGame(1, u1, scoreOne);
             var g2 = new BadmintonGame(1, u1, scoreTwo);

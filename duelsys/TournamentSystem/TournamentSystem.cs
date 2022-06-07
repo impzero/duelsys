@@ -2,7 +2,7 @@
 {
     public interface ITournamentSystem
     {
-        public List<MatchPair> GenerateSchedule(DateTime tournamentStartDate, DateTime tournamentEndDate, List<User> players);
+        public List<MatchPair> GenerateSchedule(DateTime tournamentStartDate, DateTime tournamentEndDate, List<UserBase> players);
     }
 
     public abstract class TournamentSystem : ITournamentSystem
@@ -15,7 +15,7 @@
             Id = id;
             Name = name;
         }
-        public abstract List<MatchPair> GenerateSchedule(DateTime tournamentStartDate, DateTime tournamentEndDate, List<User> players);
+        public abstract List<MatchPair> GenerateSchedule(DateTime tournamentStartDate, DateTime tournamentEndDate, List<UserBase> players);
     }
 
     public class TournamentSystemFactory
