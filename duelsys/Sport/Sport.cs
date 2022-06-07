@@ -1,6 +1,4 @@
-﻿using duelsys.ApplicationLayer.Views;
-
-namespace duelsys
+﻿namespace duelsys
 {
 
     public interface IGameScoreValidator

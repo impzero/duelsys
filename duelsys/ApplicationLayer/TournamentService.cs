@@ -1,5 +1,4 @@
-﻿using duelsys.ApplicationLayer.Views;
-using duelsys.Interfaces;
+﻿using duelsys.Interfaces;
 
 namespace duelsys.ApplicationLayer;
 public class TournamentService
@@ -114,13 +113,13 @@ public class TournamentService
         public int TournamentId { get; private set; }
         public int MatchId { get; private set; }
 
-        public UserBase FirstPlayer { get; private set; }
-        public UserBase SecondPlayer { get; private set; }
+        public Views.UserBase FirstPlayer { get; private set; }
+        public Views.UserBase SecondPlayer { get; private set; }
 
         public string FirstPlayerResult { get; private set; }
         public string SecondPlayerResult { get; private set; }
 
-        public RegisterMatchResultArgs(int tournamentId, int matchId, UserBase firstPlayer, UserBase secondPlayer, string firstPlayerResult, string secondPlayerResult)
+        public RegisterMatchResultArgs(int tournamentId, int matchId, Views.UserBase firstPlayer, Views.UserBase secondPlayer, string firstPlayerResult, string secondPlayerResult)
         {
             TournamentId = tournamentId;
             MatchId = matchId;
@@ -140,13 +139,19 @@ public class TournamentService
 
 
 
-        var g1 = new Game(args.FirstPlayer, args.FirstPlayerResult);
-        var g2 = new Game(args.SecondPlayer, args.SecondPlayerResult);
-        var match = t.RegisterResult(args.MatchId, g1, g2);
+        var duelSysFirstPlayer =
+            new UserBase(args.FirstPlayer.Id, args.FirstPlayer.FirstName, args.FirstPlayer.SecondName);
 
+        var duelSysSecondPlayer =
+            new UserBase(args.SecondPlayer.Id, args.SecondPlayer.FirstName, args.SecondPlayer.SecondName);
+
+        var g1 = new Game(duelSysFirstPlayer, args.FirstPlayerResult);
+        var g2 = new Game(duelSysSecondPlayer, args.SecondPlayerResult);
+
+        var match = t.RegisterResult(args.MatchId, g1, g2);
         try
         {
-            MatchStore.SaveMatchResult(match.Id, args.G1, args.G2);
+            MatchStore.SaveMatchResult(match.Id, g1, g2);
         }
         catch (Exception e)
         {
