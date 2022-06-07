@@ -133,6 +133,7 @@
             this.Controls.Add(this.textBox1);
             this.Name = "MatchResultRegister";
             this.Text = "MatchResultRegister";
+            this.Load += new System.EventHandler(this.MatchResultRegister_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

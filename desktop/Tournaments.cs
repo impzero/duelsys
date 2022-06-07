@@ -33,6 +33,7 @@ namespace desktop
                 object t = new
                 {
                     Id = tournament.Id,
+
                     Description = tournament.Description,
                     Location = tournament.Location,
                     Sport = tournament.Sport.Name,
@@ -57,6 +58,7 @@ namespace desktop
         private void button3_Click(object sender, EventArgs e)
         {
             var description = textBox1.Text;
+
             var location = textBox2.Text;
             var sportId = Convert.ToInt32(comboBox1.SelectedValue);
             var tsId = Convert.ToInt32(comboBox2.SelectedValue);
