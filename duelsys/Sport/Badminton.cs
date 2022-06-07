@@ -1,4 +1,6 @@
-﻿namespace duelsys
+﻿using duelsys.ApplicationLayer.Views;
+
+namespace duelsys
 {
     public class Badminton : Sport
     {
@@ -9,7 +11,7 @@
 
     public class BadmintonWinnerGetter : IWinnerGetter
     {
-        public User DecideWinner(List<Game> playerOneGames, List<Game> playerTwoGames)
+        public UserBase DecideWinner(List<Game> playerOneGames, List<Game> playerTwoGames)
         {
             if (playerOneGames.Count < 3 || playerTwoGames.Count < 3)
                 throw new Exception("Minimum of 3 games need to be played in order to determine the winner");
@@ -17,7 +19,7 @@
             if (playerOneGames.Count != playerTwoGames.Count)
                 throw new Exception("Number of games need to match between players");
 
-            var gameResult = new Dictionary<User, int>();
+            var gameResult = new Dictionary<UserBase, int>();
             foreach (var firstPlayerGame in playerOneGames)
             {
                 foreach (var secondPlayerGame in playerTwoGames)
@@ -56,8 +58,8 @@
     {
         public void AssertCorrectGameScore(Game g1, Game g2)
         {
-            var playerOneScore = ((BadmintonGame)g1).GetResult();
-            var playerTwoScore = ((BadmintonGame)g2).GetResult();
+            var playerOneScore = new BadmintonGame(g1).GetResult();
+            var playerTwoScore = new BadmintonGame(g2).GetResult();
 
             if (playerOneScore < 21 && playerTwoScore < 21)
                 throw new Exception("Winner's game score must be at least 21");

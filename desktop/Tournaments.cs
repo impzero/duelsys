@@ -1,5 +1,4 @@
-﻿using duelsys;
-using duelsys.Services;
+﻿using duelsys.ApplicationLayer;
 
 namespace desktop
 {
@@ -64,9 +63,9 @@ namespace desktop
             var startingDate = dateTimePicker1.Value;
             var endingDate = dateTimePicker2.Value;
 
-            var t = new TournamentBase(description, location, startingDate, endingDate);
+            var args = new TournamentService.CreateTournamentArgs(description, location, startingDate, endingDate, sportId, tsId);
 
-            tService.CreateTournament(true, t, sportId, tsId);
+            tService.CreateTournament(true, args);
             RefetchHomePage();
         }
 

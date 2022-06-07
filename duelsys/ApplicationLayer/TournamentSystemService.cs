@@ -1,6 +1,6 @@
 ﻿using duelsys.Interfaces;
 
-namespace duelsys.Services;
+namespace duelsys.ApplicationLayer;
 public class TournamentSystemService
 {
     public ITournamentSystemStore TournamentSystemStore { get; private set; }
@@ -13,5 +13,10 @@ public class TournamentSystemService
     public List<TournamentSystem> GetTournamentSystems()
     {
         return TournamentSystemStore.GetTournamentSystems();
+    }
+
+    public void CreateTournamentStore(string name)
+    {
+        TournamentSystemStore.SaveTournamentSystem(name);
     }
 }

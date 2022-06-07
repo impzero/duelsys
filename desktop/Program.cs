@@ -1,4 +1,4 @@
-using duelsys.Services;
+using duelsys.ApplicationLayer;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using mysql;

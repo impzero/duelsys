@@ -12,6 +12,13 @@
 
         public TournamentBase(int id, string description, string location, DateTime startingDate, DateTime endingDate, Sport sport, ITournamentSystem tournamentSystem)
         {
+            if ((startingDate - DateTime.Now).TotalDays < 7)
+                throw new Exception($"Cannot create tournament starting earlier than 7 days from now ({DateTime.Now})");
+
+            if ((endingDate - endingDate).TotalDays < 1)
+                throw new Exception("Cannot create tournament with duration less than one day");
+
+
             Id = id;
             Description = description;
             Location = location;
@@ -20,14 +27,20 @@
             Sport = sport;
             TournamentSystem = tournamentSystem;
         }
-        public TournamentBase(string description, string location, DateTime startingDate, DateTime endingDate)
+
+        public static TournamentBase CreateTournamentBase(string description, string location, DateTime startingDate, DateTime endingDate)
         {
-            Description = description;
-            Location = location;
-            StartingDate = startingDate;
-            EndingDate = endingDate;
+            return CreateTournamentBase(0, description, location, startingDate, endingDate, null!, null!);
+        }
+        public static TournamentBase CreateTournamentBase(int id, string description, string location, DateTime startingDate, DateTime endingDate)
+        {
+            return CreateTournamentBase(id, description, location, startingDate, endingDate, null!, null!);
         }
 
+        public static TournamentBase CreateTournamentBase(int id, string description, string location, DateTime startingDate, DateTime endingDate, Sport sport, ITournamentSystem tournamentSystem)
+        {
+            return new TournamentBase(id, description, location, startingDate, endingDate, sport, tournamentSystem);
+        }
     }
 
     public class Tournament : TournamentBase

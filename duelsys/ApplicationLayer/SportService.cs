@@ -1,6 +1,6 @@
 ﻿using duelsys.Interfaces;
 
-namespace duelsys.Services;
+namespace duelsys.ApplicationLayer;
 
 public class SportService
 {

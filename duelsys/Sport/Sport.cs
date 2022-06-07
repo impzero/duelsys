@@ -1,6 +1,7 @@
-﻿namespace duelsys
-{
+﻿using duelsys.ApplicationLayer.Views;
 
+namespace duelsys
+{
 
     public interface IGameScoreValidator
     {
@@ -9,7 +10,7 @@
 
     public interface IWinnerGetter
     {
-        User DecideWinner(List<Game> playerOneGames, List<Game> playerTwoGames);
+        UserBase DecideWinner(List<Game> playerOneGames, List<Game> playerTwoGames);
     }
 
     public class Sport
@@ -50,7 +51,6 @@
                 SportType.Badminton,
                 sport => new Badminton(sport.Id, sport.MinPlayersCount, sport.MaxPlayersCount)
             },
-            // ... 
         };
         public static Sport Create(Sport s)
         {
