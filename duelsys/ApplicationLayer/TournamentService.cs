@@ -114,7 +114,7 @@ public class TournamentService
         }
     }
 
-    public void RegisterForTournament(int tId, Views.UserBase u)
+    public void Register(int tId, Views.UserBase u)
     {
 
         // TODO
