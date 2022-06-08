@@ -122,15 +122,18 @@ public class TournamentService
         // with update fn pattern
         try
         {
-
             var t = TournamentStore.GetTournamentById(tId);
             var tournamentUser = t.RegisterPlayer(new UserBase(u.Id, u.FirstName, u.SecondName));
             TournamentStore.SavePlayer(tournamentUser.TournamentId, tournamentUser.UserId);
         }
+        catch (TournamentException)
+        {
+            throw;
+        }
         catch (Exception e)
         {
             Console.WriteLine(e);
-            throw;
+            throw new Exception("Failed creating tournament");
         }
     }
 
