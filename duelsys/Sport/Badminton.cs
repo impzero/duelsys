@@ -47,7 +47,6 @@ namespace duelsys
                 if (result.Value >= score)
                 {
                     winner = result.Key;
-                    score = result.Value;
                 }
             }
 
