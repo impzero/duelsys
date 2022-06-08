@@ -6,4 +6,5 @@ public interface ITournamentStore
     bool UpdateTournamentById(TournamentBase t, int tsId);
     List<TournamentBase> GetTournaments();
     Tournament GetTournamentById(int id);
+    void SavePlayer(int tId, int uId);
 }

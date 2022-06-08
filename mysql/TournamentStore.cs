@@ -109,6 +109,15 @@ WHERE id = @id";
             return tournaments;
         }
 
+        public void SavePlayer(int tId, int uId)
+        {
+            const string query = @"INSERT INTO user_tournament (user_id, tournament_id) VALUES(@user_id, @tournament_id)";
+            MySqlHelper.ExecuteNonQuery(ConnectionUrl, query,
+                new MySqlParameter("user_id", tId),
+                new MySqlParameter("tournament_id", tId)
+            );
+        }
+
         public Tournament GetTournamentById(int id)
         {
             const string query = @"SELECT tournament.id,

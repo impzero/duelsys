@@ -98,7 +98,7 @@ public class Tournament : TournamentBase
         PlayerPairs = TournamentSystem.GenerateSchedule(StartingDate, EndingDate, Players);
     }
 
-    public void RegisterPlayer(UserBase player)
+    public TournamentUser RegisterPlayer(UserBase player)
     {
         if ((StartingDate - DateTime.Now).TotalDays < 7)
             throw new Exception("It is too late to register for this tournament");
@@ -107,5 +107,19 @@ public class Tournament : TournamentBase
             throw new Exception("Maximum number of players for this tournament is already reached!");
 
         Players.Add(player);
+
+        return new TournamentUser(Id, player.Id);
+    }
+}
+
+public class TournamentUser
+{
+    public int TournamentId { get; private set; }
+    public int UserId { get; private set; }
+
+    public TournamentUser(int tournamentId, int userId)
+    {
+        TournamentId = tournamentId;
+        UserId = userId;
     }
 }

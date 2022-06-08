@@ -48,7 +48,9 @@ public class TournamentService
 
         return TournamentStore.SaveTournament(t, args.SportId, args.TournamentSystemId);
     }
+
     public List<TournamentBase> GetTournaments() => TournamentStore.GetTournaments();
+
     public Tournament GetTournamentById(int id) => TournamentStore.GetTournamentById(id);
 
     public struct EditTournamentArgs
@@ -89,11 +91,15 @@ public class TournamentService
 
         return TournamentStore.GetTournamentById(t.Id);
     }
+
     public void GenerateSchedule(bool isAdmin, int tId)
     {
         if (!isAdmin)
             throw new Exception("User must be an admin in order to generate schedule");
 
+        // TODO
+        // should be done in a transactions without leaking implementation details
+        // possible with the update function pattern
         var t = TournamentStore.GetTournamentById(tId);
         t.GenerateSchedule();
 
@@ -106,6 +112,21 @@ public class TournamentService
             Console.WriteLine(e);
             throw new Exception("Failed to generate schedule");
         }
+    }
+
+    public void RegisterForTournament(int tId, Views.UserBase u)
+    {
+
+        // TODO
+        // Put in transaction without leaking implementation details
+        // with update fn pattern
+        var t = TournamentStore.GetTournamentById(tId);
+        var tournamentUser = t.RegisterPlayer(new UserBase(u.Id, u.FirstName, u.SecondName));
+
+        TournamentStore.SavePlayer(tournamentUser.TournamentId, tournamentUser.UserId);
+
+
+
     }
 
     public struct RegisterMatchResultArgs
@@ -136,8 +157,6 @@ public class TournamentService
             throw new Exception("User must be an admin in order to register game result");
 
         var t = TournamentStore.GetTournamentById(args.TournamentId);
-
-
 
         var duelSysFirstPlayer =
             new UserBase(args.FirstPlayer.Id, args.FirstPlayer.FirstName, args.FirstPlayer.SecondName);
