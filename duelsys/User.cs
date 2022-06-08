@@ -39,6 +39,7 @@
         public int Id { get; private set; }
         public string FirstName { get; private set; }
         public string SecondName { get; private set; }
+        public readonly string Names => FirstName + " " + SecondName;
 
         public UserBase(int id, string firstName, string secondName)
         {

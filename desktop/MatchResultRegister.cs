@@ -23,9 +23,9 @@ namespace desktop
         {
             //var tournamentSystems = tsService.GetTournamentSystems();
 
-            comboBox2.DisplayMember = "Name";
-            comboBox2.ValueMember = "Id";
-            comboBox2.DataSource = tournamentSystems;
+            //comboBox2.DisplayMember = "Name";
+            //comboBox2.ValueMember = "Id";
+            //comboBox2.DataSource = tournamentSystems;
         }
     }
 }

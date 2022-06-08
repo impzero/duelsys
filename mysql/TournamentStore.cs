@@ -113,7 +113,7 @@ WHERE id = @id";
         {
             const string query = @"INSERT INTO user_tournament (user_id, tournament_id) VALUES(@user_id, @tournament_id)";
             MySqlHelper.ExecuteNonQuery(ConnectionUrl, query,
-                new MySqlParameter("user_id", tId),
+                new MySqlParameter("user_id", uId),
                 new MySqlParameter("tournament_id", tId)
             );
         }
@@ -131,15 +131,18 @@ WHERE id = @id";
        s.max_players s_max_players,
        ts.id         t_id,
        ts.name       t_name,
-       u.*
+       u.id,
+       u.first_name,
+       u.last_name
 FROM tournament
-         JOIN sport s ON s.id = tournament.sport_id
-         JOIN tournament_system ts ON ts.id = tournament.tournament_system_id
+         INNER JOIN sport s ON s.id = tournament.sport_id
+         INNER JOIN tournament_system ts ON ts.id = tournament.tournament_system_id
          LEFT JOIN user_tournament_match utm ON tournament.id = utm.tournament_id
          LEFT join users u ON utm.user_id = u.id
 WHERE tournament.id = @tournament_id
 ";
             var reader = MySqlHelper.ExecuteReader(ConnectionUrl, query, new MySqlParameter("tournament_id", id));
+            reader.Read();
 
             if (!reader.HasRows)
                 throw new Exception("No tournament found");
@@ -155,24 +158,26 @@ WHERE tournament.id = @tournament_id
             var sportMaxPlayers = reader.GetInt32(8);
             var tsId = reader.GetInt32(9);
             var tsName = reader.GetString(10);
-            var pId = reader.GetInt32(11);
-            var pFirstName = reader.GetString(12);
-            var pLastName = reader.GetString(13);
+            int? pId = reader.IsDBNull(11) ? null : reader.GetInt32(11);
+            string? pFirstName = reader.IsDBNull(12) ? null : reader.GetString(12);
+            string? pLastName = reader.IsDBNull(13) ? null : reader.GetString(12);
 
             var tournamentSystem = TournamentSystemFactory.Create(tsName, tsId);
             var sport = SportFactory.Create(new Sport(sportId, sportName, sportMinPlayers, sportMaxPlayers));
 
-            var players = new List<UserBase>
-            {
-                new(pId, pFirstName, pLastName)
-            };
+
+            var players = new List<UserBase>();
+            if (pId != null && pFirstName != null && pLastName != null)
+                players.Add(new UserBase((int)pId, pFirstName, pLastName));
+
             while (reader.Read())
             {
-                pId = reader.GetInt32(11);
-                pFirstName = reader.GetString(12);
-                pLastName = reader.GetString(13);
+                pId = reader.IsDBNull(11) ? null : reader.GetInt32(11);
+                pFirstName = reader.IsDBNull(12) ? null : reader.GetString(12);
+                pLastName = reader.IsDBNull(13) ? null : reader.GetString(12);
 
-                players.Add(new UserBase(pId, pFirstName, pLastName));
+                if (pId != null && pFirstName != null && pLastName != null)
+                    players.Add(new UserBase((int)pId, pFirstName, pLastName));
             }
 
             return new Tournament(tId, description, location, startingDate, endingDate, sport, tournamentSystem, players);

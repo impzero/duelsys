@@ -62,5 +62,49 @@ namespace mysql
                 new MySqlParameter("is_admin", u.IsAdmin)
             );
         }
+
+        public List<UserBase> GetAllUsers()
+        {
+            const string query = "SELECT id, first_name, second_name FROM users";
+            using var reader = MySqlHelper.ExecuteReader(ConnectionUrl, query);
+
+            if (!reader.HasRows)
+                return new();
+
+            var users = new List<UserBase>();
+            while (reader.Read())
+            {
+                var id = reader.GetInt32(0);
+                var firstName = reader.GetString(1);
+                var secondName = reader.GetString(2);
+
+                users.Add(new UserBase(id, firstName, secondName));
+            }
+            return users;
+        }
+
+        public List<UserBase> GetAllUsersNotInTournament(int tournamentId)
+        {
+            const string query = @"SELECT id, first_name, last_name
+            FROM users u
+                LEFT OUTER JOIN user_tournament ut
+            ON u.id = ut.user_id AND ut.tournament_id = @tournament_id
+            WHERE ut.user_id IS null";
+            using var reader = MySqlHelper.ExecuteReader(ConnectionUrl, query, new MySqlParameter("tournament_id", tournamentId));
+
+            if (!reader.HasRows)
+                return new();
+
+            var users = new List<UserBase>();
+            while (reader.Read())
+            {
+                var id = reader.GetInt32(0);
+                var firstName = reader.GetString(1);
+                var secondName = reader.GetString(2);
+
+                users.Add(new UserBase(id, firstName, secondName));
+            }
+            return users;
+        }
     }
 }

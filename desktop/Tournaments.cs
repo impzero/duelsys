@@ -1,4 +1,5 @@
 ﻿using duelsys.ApplicationLayer;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace desktop
 {
@@ -112,6 +113,15 @@ namespace desktop
             {
                 MessageBox.Show(exception.Message);
             }
+        }
+
+        public int CurrentTournamentId => Convert.ToInt32(dataGridView1.CurrentRow.Cells[0].Value);
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            using var form = Program.ServiceProvider.GetRequiredService<PlayerRegisterer>();
+            form.TournamentId = CurrentTournamentId;
+            form.ShowDialog();
         }
     }
 }

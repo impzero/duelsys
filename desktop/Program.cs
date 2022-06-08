@@ -44,6 +44,7 @@ namespace desktop
             var tService = new TournamentService(tournamentStore, matchStore, gameStore);
             var tsService = new TournamentSystemService(tournamentSystemStore);
             var sService = new SportService(sportStore);
+            var uService = new UserService(userStore);
 
             return Host.CreateDefaultBuilder()
                 .ConfigureServices((_, services) =>
@@ -52,8 +53,10 @@ namespace desktop
                     services.AddSingleton(tService);
                     services.AddSingleton(tsService);
                     services.AddSingleton(sService);
+                    services.AddSingleton(uService);
                     services.AddTransient<Login>();
                     services.AddTransient<Tournaments>();
+                    services.AddTransient<PlayerRegisterer>();
                 });
         }
     }
