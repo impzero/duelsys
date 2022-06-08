@@ -1,5 +1,6 @@
 ﻿using duelsys;
-using duelsys.Interfaces;
+using duelsys.ApplicationLayer.Interfaces;
+using duelsys.ApplicationLayer.Views;
 using MySql.Data.MySqlClient;
 
 namespace mysql
@@ -92,7 +93,7 @@ VALUES (@user_id, @result, @match_id)";
             });
         }
 
-        public List<MatchPair> GetAllMatchesByTournamentId(int tId)
+        public List<Views.MatchPair> GetAllMatchesByTournamentId(int tId)
         {
             const string query = @"SELECT m.date, u.*
 FROM `match` m

@@ -1,5 +1,5 @@
 ﻿using duelsys;
-using duelsys.Interfaces;
+using duelsys.ApplicationLayer.Interfaces;
 using MySql.Data.MySqlClient;
 
 namespace mysql;

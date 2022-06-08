@@ -1,4 +1,4 @@
-﻿using duelsys.Interfaces;
+﻿using duelsys.ApplicationLayer.Interfaces;
 
 namespace duelsys.ApplicationLayer;
 public class TournamentService
@@ -52,6 +52,11 @@ public class TournamentService
     public List<TournamentBase> GetTournaments() => TournamentStore.GetTournaments();
 
     public Tournament GetTournamentById(int id) => TournamentStore.GetTournamentById(id);
+
+    public List<Views.MatchPair> sadsads()
+    {
+
+    }
 
     public struct EditTournamentArgs
     {

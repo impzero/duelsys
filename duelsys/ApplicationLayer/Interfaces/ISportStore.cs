@@ -1,4 +1,4 @@
-﻿namespace duelsys.Interfaces;
+﻿namespace duelsys.ApplicationLayer.Interfaces;
 
 public interface ISportStore
 {

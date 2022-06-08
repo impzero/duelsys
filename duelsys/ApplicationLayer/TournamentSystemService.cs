@@ -1,4 +1,4 @@
-﻿using duelsys.Interfaces;
+﻿using duelsys.ApplicationLayer.Interfaces;
 
 namespace duelsys.ApplicationLayer;
 public class TournamentSystemService
