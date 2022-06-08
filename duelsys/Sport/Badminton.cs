@@ -1,4 +1,4 @@
-﻿using duelsys.ApplicationLayer.Views;
+﻿using duelsys.Exceptions;
 
 namespace duelsys
 {
@@ -62,13 +62,13 @@ namespace duelsys
             var playerTwoScore = new BadmintonGame(g2).GetResult();
 
             if (playerOneScore < 21 && playerTwoScore < 21)
-                throw new Exception("Winner's game score must be at least 21");
+                throw new InvalidGameScoreException("Winner's game score must be at least 21");
 
             if (playerOneScore > 30 || playerTwoScore > 30)
-                throw new Exception("Maximum score cannot exceed 30");
+                throw new InvalidGameScoreException("Maximum score cannot exceed 30");
 
             if (playerOneScore == playerTwoScore)
-                throw new Exception("Game cannot end draw");
+                throw new InvalidGameScoreException("Game cannot end draw");
 
             if (playerOneScore < 20 || playerTwoScore < 20)
                 return;
@@ -78,7 +78,7 @@ namespace duelsys
 
             var abs = Math.Abs(playerOneScore - playerTwoScore);
             if (abs != 2)
-                throw new Exception("Game difference should be at least of 2 points");
+                throw new InvalidGameScoreException("Game difference should be at least of 2 points");
         }
     }
 }

@@ -23,8 +23,16 @@ namespace desktop
             var firstPlayerResult = textBox1.Text;
             var secondPlayerResult = textBox2.Text;
 
-            var args = new TournamentService.RegisterMatchResultArgs(TournamentId, mId, matchPair.FirstPlayer, matchPair.SecondPlayer, firstPlayerResult, secondPlayerResult);
-            tService.RegisterMatchResult(true, args);
+            try
+            {
+                var args = new TournamentService.RegisterMatchResultArgs(TournamentId, mId, matchPair.FirstPlayer, matchPair.SecondPlayer, firstPlayerResult, secondPlayerResult);
+                tService.RegisterMatchResult(true, args);
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception);
+                MessageBox.Show(exception.Message);
+            }
         }
 
         private void MatchResultRegister_Load(object sender, EventArgs e)

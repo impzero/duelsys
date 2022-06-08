@@ -1,4 +1,5 @@
 ﻿using duelsys.ApplicationLayer.Interfaces;
+using duelsys.Exceptions;
 
 namespace duelsys.ApplicationLayer.Services;
 public class TournamentService
@@ -198,9 +199,12 @@ public class TournamentService
         {
             throw;
         }
-        catch (Exception e)
+        catch (InvalidGameScoreException)
         {
             throw;
+        }
+        catch (Exception e)
+        {
             Console.WriteLine(e);
             throw new Exception("Failed to register match result");
         }
