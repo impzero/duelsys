@@ -105,6 +105,8 @@ public class TournamentService
         return TournamentStore.GetTournamentById(t.Id);
     }
 
+
+
     public void GenerateSchedule(bool isAdmin, int tId)
     {
         if (!isAdmin)
@@ -160,7 +162,6 @@ public class TournamentService
 
         public Views.UserBase FirstPlayer { get; private set; }
         public Views.UserBase SecondPlayer { get; private set; }
-
         public string FirstPlayerResult { get; private set; }
         public string SecondPlayerResult { get; private set; }
 

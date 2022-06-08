@@ -14,5 +14,4 @@ public class BadmintonGame : Game
     {
         return Convert.ToInt32(base.Result);
     }
-
 }

@@ -73,11 +73,8 @@ namespace duelsys
             if (playerOneScore < 20 || playerTwoScore < 20)
                 return;
 
-            if (playerOneScore == 30 || playerTwoScore == 30)
-                return;
-
             var abs = Math.Abs(playerOneScore - playerTwoScore);
-            if (abs != 2)
+            if (abs != 2 && playerOneScore != 30 && playerTwoScore != 30)
                 throw new InvalidGameScoreException("Game difference should be at least of 2 points");
         }
     }
