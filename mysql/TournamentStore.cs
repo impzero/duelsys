@@ -135,12 +135,11 @@ WHERE id = @id";
        u.first_name,
        u.last_name
 FROM tournament
-         INNER JOIN sport s ON s.id = tournament.sport_id
-         INNER JOIN tournament_system ts ON ts.id = tournament.tournament_system_id
-         LEFT JOIN user_tournament_match utm ON tournament.id = utm.tournament_id
-         LEFT join users u ON utm.user_id = u.id
-WHERE tournament.id = @tournament_id
-";
+          JOIN sport s ON s.id = tournament.sport_id
+          JOIN tournament_system ts ON ts.id = tournament.tournament_system_id
+          LEFT JOIN user_tournament ut ON tournament.id = ut.tournament_id
+          LEFT JOIN users u ON ut.user_id = u.id
+WHERE tournament.id = @tournament_id;";
             var reader = MySqlHelper.ExecuteReader(ConnectionUrl, query, new MySqlParameter("tournament_id", id));
             reader.Read();
 

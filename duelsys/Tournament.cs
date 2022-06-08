@@ -91,9 +91,9 @@ public class Tournament : TournamentBase
 
     public void GenerateSchedule()
     {
-        if (Players.Count < Sport.MinPlayersCount && Sport.MaxPlayersCount < Players.Count)
+        if (Players.Count < Sport.MinPlayersCount || Sport.MaxPlayersCount < Players.Count)
             throw new TournamentException(
-                "Cannot generate schedule for this tournament. Players don't comply with sport rules");
+                "Cannot generate schedule for this tournament. Players count are not within range of the sport rules");
 
         PlayerPairs = TournamentSystem.GenerateSchedule(StartingDate, EndingDate, Players);
     }

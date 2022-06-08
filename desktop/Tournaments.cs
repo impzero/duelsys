@@ -123,5 +123,18 @@ namespace desktop
             form.TournamentId = CurrentTournamentId;
             form.ShowDialog();
         }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                tService.GenerateSchedule(true, CurrentTournamentId);
+            }
+            catch (Exception)
+            {
+                throw;
+                //MessageBox.Show(exception.Message);
+            }
+        }
     }
 }

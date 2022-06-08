@@ -1,6 +1,7 @@
 ﻿using duelsys.Interfaces;
 
 namespace duelsys.ApplicationLayer;
+
 public class UserService
 {
     public IUserStore UserStore { get; private set; }

@@ -99,13 +99,16 @@ public class TournamentService
 
         // TODO
         // should be done in a transactions without leaking implementation details
-        // possible with the update function pattern
-        var t = TournamentStore.GetTournamentById(tId);
-        t.GenerateSchedule();
-
+        // possibly with the update function pattern
         try
         {
+            var t = TournamentStore.GetTournamentById(tId);
+            t.GenerateSchedule();
             MatchStore.SaveMatches(t.PlayerPairs, tId);
+        }
+        catch (TournamentException)
+        {
+            throw;
         }
         catch (Exception e)
         {

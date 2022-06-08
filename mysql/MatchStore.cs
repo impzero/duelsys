@@ -35,7 +35,7 @@ namespace mysql
 
                     cmd.Parameters.Clear();
 
-                    cmd.CommandText = @"SELECT LAST_INSERT_ID() FROM match";
+                    cmd.CommandText = @"SELECT LAST_INSERT_ID() FROM `match`";
 
                     var mId = Convert.ToInt32(cmd.ExecuteScalar());
 
