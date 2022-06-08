@@ -80,17 +80,17 @@
             this.label2.TabIndex = 3;
             this.label2.Text = "Password";
             // 
-            // Form1
+            // Login
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(388, 286);
+            this.ClientSize = new System.Drawing.Size(379, 286);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.button1);
-            this.Name = "Form1";
+            this.Name = "Login";
             this.Text = "duelsys admin";
             this.ResumeLayout(false);
             this.PerformLayout();

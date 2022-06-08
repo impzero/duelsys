@@ -13,4 +13,6 @@ public class MatchPair
         SecondPlayer = secondPlayer;
         Date = date;
     }
+
+    public string Stringified => $"{FirstPlayer.FirstName} {FirstPlayer.SecondName} vs {SecondPlayer.FirstName} {SecondPlayer.SecondName}";
 }

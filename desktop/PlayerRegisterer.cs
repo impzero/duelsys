@@ -1,4 +1,4 @@
-﻿using duelsys.ApplicationLayer;
+﻿using duelsys.ApplicationLayer.Services;
 using duelsys.ApplicationLayer.Views;
 
 namespace desktop

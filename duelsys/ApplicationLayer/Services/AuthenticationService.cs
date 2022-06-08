@@ -1,6 +1,6 @@
 ﻿using duelsys.ApplicationLayer.Interfaces;
 
-namespace duelsys.ApplicationLayer;
+namespace duelsys.ApplicationLayer.Services;
 
 public class AuthenticationService
 {

@@ -1,7 +1,7 @@
 ﻿using duelsys;
 using duelsys.ApplicationLayer.Interfaces;
-using duelsys.ApplicationLayer.Views;
 using MySql.Data.MySqlClient;
+using UserBase = duelsys.ApplicationLayer.Views.UserBase;
 
 namespace mysql
 {
@@ -16,14 +16,14 @@ namespace mysql
             public Match(DateTime playDate, int matchId)
             {
                 PlayDate = playDate;
-                _matchId = matchId;
+                MatchId = matchId;
             }
 
             public DateTime PlayDate { get; }
-            private readonly int _matchId;
+            public int MatchId { get; }
         }
 
-        public void SaveMatches(List<MatchPair> mps, int tId)
+        public void SaveMatches(List<duelsys.MatchPair> mps, int tId)
         {
             ExecuteInTx(cmd =>
             {
@@ -93,49 +93,100 @@ VALUES (@user_id, @result, @match_id)";
             });
         }
 
-        public List<Views.MatchPair> GetAllMatchesByTournamentId(int tId)
+        public duelsys.ApplicationLayer.Views.MatchPair GetMatchPair(int tournamentId, int matchId)
         {
-            const string query = @"SELECT m.date, u.*
+            const string query = @"SELECT m.id, m.date, u.*
 FROM `match` m
          JOIN user_tournament_match utm on m.id = utm.match_id
          JOIN users u on u.id = utm.user_id
-WHERE utm.tournament_id = @1";
-
-            var reader = MySqlHelper.ExecuteReader(ConnectionUrl, query, new MySqlParameter("id", tId));
+WHERE m.id = @match_id
+  AND utm.tournament_id = @tournament_id";
+            using var reader = MySqlHelper.ExecuteReader(ConnectionUrl, query,
+                new MySqlParameter("match_id", matchId),
+                new MySqlParameter("tournament_id", tournamentId)
+            );
 
             if (!reader.HasRows)
-                return new();
+                throw new Exception("No such match pair found");
 
             var playersPerMatch = new Dictionary<Match, List<UserBase>>();
             while (reader.Read())
             {
                 var mId = reader.GetInt32(0);
                 var mDate = reader.GetDateTime(1);
-
-                var pId = reader.GetInt32(11);
-                var pFirstName = reader.GetString(12);
-                var pLastName = reader.GetString(13);
-
-                var user = new UserBase(pId, pFirstName, pLastName);
                 var match = new Match(mDate, mId);
 
                 if (!playersPerMatch.ContainsKey(match))
                     playersPerMatch[match] = new List<UserBase>();
 
-                playersPerMatch[match].Add(user);
+                var pId = reader.GetInt32(2);
+                var pFirstName = reader.GetString(3);
+                var pLastName = reader.GetString(4);
+
+                playersPerMatch[match].Add(new(pId, pFirstName, pLastName));
             }
 
-            var pairs = new List<MatchPair>();
+            duelsys.ApplicationLayer.Views.MatchPair pair = null!;
             foreach (var matchPlayers in playersPerMatch)
             {
                 if (matchPlayers.Value.Count < 2)
                     throw new Exception("Not enough players registered per match");
 
+                var mId = matchPlayers.Key.MatchId;
+                var mDate = matchPlayers.Key.PlayDate;
                 var firstPlayer = matchPlayers.Value[0];
                 var secondPlayer = matchPlayers.Value[1];
-                var playDate = matchPlayers.Key.PlayDate;
 
-                pairs.Add(new MatchPair(firstPlayer, secondPlayer, playDate));
+                pair = new(mId, firstPlayer, secondPlayer, mDate);
+            }
+
+            return pair;
+        }
+
+        public List<duelsys.ApplicationLayer.Views.MatchPair> GetAllMatchesByTournamentId(int tId)
+        {
+            const string query = @"SELECT m.id, m.date, u.*
+FROM `match` m
+         JOIN user_tournament_match utm on m.id = utm.match_id
+         JOIN users u on u.id = utm.user_id
+WHERE utm.tournament_id = @id";
+
+            var reader = MySqlHelper.ExecuteReader(ConnectionUrl, query, new MySqlParameter("id", tId));
+
+            if (!reader.HasRows)
+                return new();
+
+            var playersPerMatch = new Dictionary<Match, List<duelsys.ApplicationLayer.Views.UserBase>>();
+            while (reader.Read())
+            {
+                var mId = reader.GetInt32(0);
+                var mDate = reader.GetDateTime(1);
+
+                var pId = reader.GetInt32(2);
+                var pFirstName = reader.GetString(3);
+                var pLastName = reader.GetString(4);
+
+                var user = new duelsys.ApplicationLayer.Views.UserBase(pId, pFirstName, pLastName);
+                var match = new Match(mDate, mId);
+
+                if (!playersPerMatch.ContainsKey(match))
+                    playersPerMatch[match] = new List<duelsys.ApplicationLayer.Views.UserBase>();
+
+                playersPerMatch[match].Add(user);
+            }
+
+            var pairs = new List<duelsys.ApplicationLayer.Views.MatchPair>();
+            foreach (var matchPlayers in playersPerMatch)
+            {
+                if (matchPlayers.Value.Count < 2)
+                    throw new Exception("Not enough players registered per match");
+
+                var mId = matchPlayers.Key.MatchId;
+                var playDate = matchPlayers.Key.PlayDate;
+                var firstPlayer = matchPlayers.Value[0];
+                var secondPlayer = matchPlayers.Value[1];
+
+                pairs.Add(new(mId, firstPlayer, secondPlayer, playDate));
             }
             return pairs;
         }

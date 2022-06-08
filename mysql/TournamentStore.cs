@@ -120,7 +120,7 @@ WHERE id = @id";
 
         public Tournament GetTournamentById(int id)
         {
-            const string query = @"SELECT tournament.id,
+            const string tournamentQuery = @"SELECT tournament.id,
        description,
        location,
        start_date,
@@ -140,7 +140,7 @@ FROM tournament
           LEFT JOIN user_tournament ut ON tournament.id = ut.tournament_id
           LEFT JOIN users u ON ut.user_id = u.id
 WHERE tournament.id = @tournament_id;";
-            var reader = MySqlHelper.ExecuteReader(ConnectionUrl, query, new MySqlParameter("tournament_id", id));
+            var reader = MySqlHelper.ExecuteReader(ConnectionUrl, tournamentQuery, new MySqlParameter("tournament_id", id));
             reader.Read();
 
             if (!reader.HasRows)
@@ -177,6 +177,35 @@ WHERE tournament.id = @tournament_id;";
 
                 if (pId != null && pFirstName != null && pLastName != null)
                     players.Add(new UserBase((int)pId, pFirstName, pLastName));
+            }
+
+            reader.Close();
+
+            const string matchesQuery = @"SELECT m.id, m.date, g.id, g.result, u.id, u.first_name, u.last_name
+FROM `match` m
+         LEFT JOIN game g ON m.id = g.match_id
+         LEFT JOIN users u ON u.id = g.user_id
+         JOIN user_tournament_match utm ON m.id = utm.match_id AND utm.tournament_id = @tournament_id";
+
+            reader = MySqlHelper.ExecuteReader(ConnectionUrl, matchesQuery,
+                new MySqlParameter("tournament_id", id)
+            );
+
+            if (!reader.HasRows)
+                throw new Exception("No tournament found");
+
+            var matches = new List<Match>();
+            while (reader.Read())
+            {
+                var mId = reader.GetInt32(0);
+                var mDate = reader.GetDateTime(1);
+                var gId = reader.GetInt32(2);
+                var gResult = reader.GetString(3);
+                var playerId = reader.GetInt32(4);
+                var playerFirstName = reader.GetString(5);
+                var playerLastName = reader.GetString(6);
+
+                matches.Add(new(mId, mDate));
             }
 
             return new Tournament(tId, description, location, startingDate, endingDate, sport, tournamentSystem, players);

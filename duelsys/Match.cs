@@ -10,26 +10,20 @@
     {
         public int Id { get; set; }
         public DateTime Date { get; set; }
-        public User PlayerOne { get; private set; }
-        public User PlayerTwo { get; private set; }
         public List<Game> PlayerOneGames { get; private set; }
         public List<Game> PlayerTwoGames { get; private set; }
 
-        public Match(int id, DateTime date, User playerOne, User playerTwo)
+        public Match(int id, DateTime date)
         {
             Id = id;
             Date = date;
-            PlayerOne = playerOne;
-            PlayerTwo = playerTwo;
             PlayerOneGames = new List<Game>();
             PlayerTwoGames = new List<Game>();
         }
-        public Match(int id, DateTime date, User playerOne, User playerTwo, List<Game> playerOneGames, List<Game> playerTwoGames)
+        public Match(int id, DateTime date, List<Game> playerOneGames, List<Game> playerTwoGames)
         {
             Id = id;
             Date = date;
-            PlayerOne = playerOne;
-            PlayerTwo = playerTwo;
             PlayerOneGames = playerOneGames;
             PlayerTwoGames = playerTwoGames;
         }

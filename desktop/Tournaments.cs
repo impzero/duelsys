@@ -1,4 +1,4 @@
-﻿using duelsys.ApplicationLayer;
+﻿using duelsys.ApplicationLayer.Services;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace desktop
@@ -135,6 +135,13 @@ namespace desktop
                 throw;
                 //MessageBox.Show(exception.Message);
             }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            using var form = Program.ServiceProvider.GetRequiredService<MatchResultRegister>();
+            form.TournamentId = CurrentTournamentId;
+            form.ShowDialog();
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using duelsys.ApplicationLayer.Interfaces;
 
-namespace duelsys.ApplicationLayer;
+namespace duelsys.ApplicationLayer.Services;
 public class TournamentService
 {
     public ITournamentStore TournamentStore { get; private set; }
@@ -53,9 +53,17 @@ public class TournamentService
 
     public Tournament GetTournamentById(int id) => TournamentStore.GetTournamentById(id);
 
-    public List<Views.MatchPair> sadsads()
+    public List<Views.MatchPair> GetMatchPairsInTournament(int tId)
     {
-
+        try
+        {
+            return MatchStore.GetAllMatchesByTournamentId(tId);
+        }
+        catch (Exception e)
+        {
+            throw;
+            throw new Exception("Failed getting match pairs");
+        }
     }
 
     public struct EditTournamentArgs
@@ -172,21 +180,24 @@ public class TournamentService
         if (!isAdmin)
             throw new Exception("User must be an admin in order to register game result");
 
-        var t = TournamentStore.GetTournamentById(args.TournamentId);
-
-        var duelSysFirstPlayer =
-            new UserBase(args.FirstPlayer.Id, args.FirstPlayer.FirstName, args.FirstPlayer.SecondName);
-
-        var duelSysSecondPlayer =
-            new UserBase(args.SecondPlayer.Id, args.SecondPlayer.FirstName, args.SecondPlayer.SecondName);
-
-        var g1 = new Game(duelSysFirstPlayer, args.FirstPlayerResult);
-        var g2 = new Game(duelSysSecondPlayer, args.SecondPlayerResult);
-
-        var match = t.RegisterResult(args.MatchId, g1, g2);
         try
         {
+            var t = TournamentStore.GetTournamentById(args.TournamentId);
+
+            var duelSysFirstPlayer =
+                new UserBase(args.FirstPlayer.Id, args.FirstPlayer.FirstName, args.FirstPlayer.SecondName);
+
+            var duelSysSecondPlayer =
+                new UserBase(args.SecondPlayer.Id, args.SecondPlayer.FirstName, args.SecondPlayer.SecondName);
+
+            var g1 = new Game(duelSysFirstPlayer, args.FirstPlayerResult);
+            var g2 = new Game(duelSysSecondPlayer, args.SecondPlayerResult);
+            var match = t.RegisterResult(args.MatchId, g1, g2);
             MatchStore.SaveMatchResult(match.Id, g1, g2);
+        }
+        catch (TournamentException)
+        {
+            throw;
         }
         catch (Exception e)
         {

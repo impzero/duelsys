@@ -1,4 +1,4 @@
-using duelsys.ApplicationLayer;
+using duelsys.ApplicationLayer.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using mysql;
@@ -45,6 +45,7 @@ namespace desktop
             var tsService = new TournamentSystemService(tournamentSystemStore);
             var sService = new SportService(sportStore);
             var uService = new UserService(userStore);
+            var mService = new MatchService(matchStore);
 
             return Host.CreateDefaultBuilder()
                 .ConfigureServices((_, services) =>
@@ -54,9 +55,11 @@ namespace desktop
                     services.AddSingleton(tsService);
                     services.AddSingleton(sService);
                     services.AddSingleton(uService);
+                    services.AddSingleton(mService);
                     services.AddTransient<Login>();
                     services.AddTransient<Tournaments>();
                     services.AddTransient<PlayerRegisterer>();
+                    services.AddTransient<MatchResultRegister>();
                 });
         }
     }
