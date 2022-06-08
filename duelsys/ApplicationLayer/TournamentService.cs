@@ -120,13 +120,18 @@ public class TournamentService
         // TODO
         // Put in transaction without leaking implementation details
         // with update fn pattern
-        var t = TournamentStore.GetTournamentById(tId);
-        var tournamentUser = t.RegisterPlayer(new UserBase(u.Id, u.FirstName, u.SecondName));
+        try
+        {
 
-        TournamentStore.SavePlayer(tournamentUser.TournamentId, tournamentUser.UserId);
-
-
-
+            var t = TournamentStore.GetTournamentById(tId);
+            var tournamentUser = t.RegisterPlayer(new UserBase(u.Id, u.FirstName, u.SecondName));
+            TournamentStore.SavePlayer(tournamentUser.TournamentId, tournamentUser.UserId);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 
     public struct RegisterMatchResultArgs

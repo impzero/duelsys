@@ -33,10 +33,10 @@ public class TournamentBase
     public static TournamentBase CreateTournamentBase(int id, string description, string location, DateTime startingDate, DateTime endingDate, Sport sport, ITournamentSystem tournamentSystem)
     {
         if ((startingDate - DateTime.Now).TotalDays < 7)
-            throw new Exception($"Cannot create tournament starting earlier than 7 days from now ({DateTime.Now})");
+            throw new TournamentException($"Cannot create tournament starting earlier than 7 days from now ({DateTime.Now})");
 
         if ((endingDate - endingDate).TotalDays < 1)
-            throw new Exception("Cannot create tournament with duration less than one day");
+            throw new TournamentException("Cannot create tournament with duration less than one day");
 
         return new TournamentBase(id, description, location, startingDate, endingDate, sport, tournamentSystem);
     }
@@ -60,7 +60,7 @@ public class Tournament : TournamentBase
         var match = Matches.Single(m => m.Id == matchId);
 
         if (match is null)
-            throw new Exception("Match was not found");
+            throw new TournamentException("Match was not found");
 
         if (Sport.GameScoreValidator != null)
             match.RegisterResult(Sport.GameScoreValidator, g1, g2);
@@ -73,7 +73,7 @@ public class Tournament : TournamentBase
         var match = Matches.Single(m => m.Id == matchId);
 
         if (match is null)
-            throw new Exception("Match was not found");
+            throw new TournamentException("Match was not found");
 
         UserBase winner = default;
         if (Sport.WinnerGetter != null)
@@ -92,7 +92,7 @@ public class Tournament : TournamentBase
     public void GenerateSchedule()
     {
         if (Players.Count < Sport.MinPlayersCount && Sport.MaxPlayersCount < Players.Count)
-            throw new Exception(
+            throw new TournamentException(
                 "Cannot generate schedule for this tournament. Players don't comply with sport rules");
 
         PlayerPairs = TournamentSystem.GenerateSchedule(StartingDate, EndingDate, Players);
@@ -101,10 +101,10 @@ public class Tournament : TournamentBase
     public TournamentUser RegisterPlayer(UserBase player)
     {
         if ((StartingDate - DateTime.Now).TotalDays < 7)
-            throw new Exception("It is too late to register for this tournament");
+            throw new TournamentException("It is too late to register for this tournament");
 
         if (Sport.MaxPlayersCount == Players.Count)
-            throw new Exception("Maximum number of players for this tournament is already reached!");
+            throw new TournamentException("Maximum number of players for this tournament is already reached!");
 
         Players.Add(player);
 
