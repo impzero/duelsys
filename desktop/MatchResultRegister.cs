@@ -21,7 +21,7 @@ namespace desktop
             var matchPair = mService.GetMatchPair(TournamentId, mId);
 
             var firstPlayerResult = textBox1.Text;
-            var secondPlayerResult = textBox1.Text;
+            var secondPlayerResult = textBox2.Text;
 
             var args = new TournamentService.RegisterMatchResultArgs(TournamentId, mId, matchPair.FirstPlayer, matchPair.SecondPlayer, firstPlayerResult, secondPlayerResult);
             tService.RegisterMatchResult(true, args);

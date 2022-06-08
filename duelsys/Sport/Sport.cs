@@ -55,6 +55,7 @@
             return SportTypes[s.Name](s);
         }
     }
+
     public class SportType
     {
         public static string Badminton = "Badminton";

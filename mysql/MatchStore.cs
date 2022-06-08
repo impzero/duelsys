@@ -11,17 +11,6 @@ namespace mysql
         {
         }
 
-        struct Match
-        {
-            public Match(DateTime playDate, int matchId)
-            {
-                PlayDate = playDate;
-                MatchId = matchId;
-            }
-
-            public DateTime PlayDate { get; }
-            public int MatchId { get; }
-        }
 
         public void SaveMatches(List<duelsys.MatchPair> mps, int tId)
         {
@@ -74,10 +63,7 @@ VALUES (@user_id, @result, @match_id)";
                 cmd.Parameters.AddWithValue("@match_id", matchId);
 
                 cmd.ExecuteNonQuery();
-
-                cmd.CommandText = "SELECT LAST_INSERT_ID() FROM game";
-
-                var g1Id = Convert.ToInt32(cmd.ExecuteScalar());
+                cmd.Parameters.Clear();
 
                 cmd.CommandText = @"INSERT INTO game (user_id, result, match_id)
 VALUES (@user_id, @result, @match_id)";
@@ -86,10 +72,6 @@ VALUES (@user_id, @result, @match_id)";
                 cmd.Parameters.AddWithValue("@match_id", matchId);
 
                 cmd.ExecuteNonQuery();
-
-                cmd.CommandText = "SELECT LAST_INSERT_ID() FROM game";
-
-                var g2Id = Convert.ToInt32(cmd.ExecuteScalar());
             });
         }
 
@@ -117,7 +99,7 @@ WHERE m.id = @match_id
                 var match = new Match(mDate, mId);
 
                 if (!playersPerMatch.ContainsKey(match))
-                    playersPerMatch[match] = new List<UserBase>();
+                    playersPerMatch.Add(match, new List<UserBase>());
 
                 var pId = reader.GetInt32(2);
                 var pFirstName = reader.GetString(3);
@@ -156,7 +138,7 @@ WHERE utm.tournament_id = @id";
             if (!reader.HasRows)
                 return new();
 
-            var playersPerMatch = new Dictionary<Match, List<duelsys.ApplicationLayer.Views.UserBase>>();
+            var playersPerMatch = new Dictionary<Match, List<UserBase>>();
             while (reader.Read())
             {
                 var mId = reader.GetInt32(0);
@@ -166,11 +148,11 @@ WHERE utm.tournament_id = @id";
                 var pFirstName = reader.GetString(3);
                 var pLastName = reader.GetString(4);
 
-                var user = new duelsys.ApplicationLayer.Views.UserBase(pId, pFirstName, pLastName);
+                var user = new UserBase(pId, pFirstName, pLastName);
                 var match = new Match(mDate, mId);
 
                 if (!playersPerMatch.ContainsKey(match))
-                    playersPerMatch[match] = new List<duelsys.ApplicationLayer.Views.UserBase>();
+                    playersPerMatch.Add(match, new List<UserBase>());
 
                 playersPerMatch[match].Add(user);
             }

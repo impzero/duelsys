@@ -88,6 +88,13 @@ public class Tournament : TournamentBase
         Players = players;
         Matches = new List<Match>();
     }
+    public Tournament(int id, string description, string location, DateTime startingDate, DateTime endingDate, Sport sport, ITournamentSystem tournamentSystem, List<UserBase> players, List<Match> matches) : base(id, description, location, startingDate, endingDate, sport, tournamentSystem)
+    {
+        PlayerPairs = new List<MatchPair>();
+        Players = players;
+        Matches = matches;
+    }
+
 
     public void GenerateSchedule()
     {

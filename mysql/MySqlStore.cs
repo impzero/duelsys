@@ -1,55 +1,66 @@
 ﻿using MySql.Data.MySqlClient;
 
-namespace mysql
+namespace mysql;
+
+
+public class MySqlStore
 {
-    public class MySqlStore
+    public string ConnectionUrl { get; }
+
+    public MySqlStore(string connectionUrl)
     {
-        public string ConnectionUrl { get; }
+        ConnectionUrl = connectionUrl;
+    }
 
-        public MySqlStore(string connectionUrl)
+    public void ExecuteInTx(Action<MySqlCommand> fn)
+    {
+        var mysqlConn = new MySqlConnection(ConnectionUrl);
+        mysqlConn.Open();
+
+        var cmd = mysqlConn.CreateCommand();
+        var myTrans = mysqlConn.BeginTransaction();
+
+        cmd.Connection = mysqlConn;
+        cmd.Transaction = myTrans;
+        try
         {
-            ConnectionUrl = connectionUrl;
+            fn(cmd);
+            myTrans.Commit();
         }
-
-        public void ExecuteInTx(Action<MySqlCommand> fn)
+        catch (Exception e)
         {
-            var mysqlConn = new MySqlConnection(ConnectionUrl);
-            mysqlConn.Open();
-
-            var cmd = mysqlConn.CreateCommand();
-            var myTrans = mysqlConn.BeginTransaction();
-
-            cmd.Connection = mysqlConn;
-            cmd.Transaction = myTrans;
             try
             {
-                fn(cmd);
-                myTrans.Commit();
+                myTrans.Rollback();
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                try
+                if (myTrans.Connection != null)
                 {
-                    myTrans.Rollback();
+                    Console.WriteLine("An exception of type " + ex.GetType() +
+                                      " was encountered while attempting to roll back the transaction.");
+                    throw;
                 }
-                catch (Exception ex)
-                {
-                    if (myTrans.Connection != null)
-                    {
-                        Console.WriteLine("An exception of type " + ex.GetType() +
-                                          " was encountered while attempting to roll back the transaction.");
-                        throw;
-                    }
-                }
-                Console.WriteLine("An exception of type " + e.GetType() +
-                                  " was encountered while inserting the data.");
-                Console.WriteLine("Neither record was written to database.");
-                throw;
             }
-            finally
-            {
-                mysqlConn.Close();
-            }
+            Console.WriteLine("An exception of type " + e.GetType() +
+                              " was encountered while inserting the data.");
+            Console.WriteLine("Neither record was written to database.");
+            throw;
+        }
+        finally
+        {
+            mysqlConn.Close();
         }
     }
+}
+public struct Match
+{
+    public Match(DateTime playDate, int matchId)
+    {
+        PlayDate = playDate;
+        MatchId = matchId;
+    }
+
+    public DateTime PlayDate { get; }
+    public int MatchId { get; }
 }

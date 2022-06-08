@@ -59,9 +59,8 @@ public class TournamentService
         {
             return MatchStore.GetAllMatchesByTournamentId(tId);
         }
-        catch (Exception e)
+        catch (Exception)
         {
-            throw;
             throw new Exception("Failed getting match pairs");
         }
     }
@@ -201,6 +200,7 @@ public class TournamentService
         }
         catch (Exception e)
         {
+            throw;
             Console.WriteLine(e);
             throw new Exception("Failed to register match result");
         }
