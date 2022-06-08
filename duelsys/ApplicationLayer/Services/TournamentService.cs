@@ -105,8 +105,6 @@ public class TournamentService
         return TournamentStore.GetTournamentById(t.Id);
     }
 
-
-
     public void GenerateSchedule(bool isAdmin, int tId)
     {
         if (!isAdmin)
@@ -201,6 +199,10 @@ public class TournamentService
             throw;
         }
         catch (InvalidGameScoreException)
+        {
+            throw;
+        }
+        catch (InvalidGamesException)
         {
             throw;
         }

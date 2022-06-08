@@ -59,11 +59,8 @@ public class Tournament : TournamentBase
     {
         var match = Matches.Single(m => m.Id == matchId);
 
-        if (match is null)
-            throw new TournamentException("Match was not found");
-
-        if (Sport.GameScoreValidator != null)
-            match.RegisterResult(Sport.GameScoreValidator, g1, g2);
+        if (Sport.GameScoreValidator != null && Sport.GamesValidator != null)
+            match.RegisterResult(Sport.GamesValidator, Sport.GameScoreValidator, g1, g2);
 
         return match;
     }

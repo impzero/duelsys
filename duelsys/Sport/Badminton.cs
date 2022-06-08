@@ -4,7 +4,7 @@ namespace duelsys
 {
     public class Badminton : Sport
     {
-        public Badminton(int id, int minPlayersCount, int maxPlayersCount) : base(id, SportType.Badminton, minPlayersCount, maxPlayersCount, new BadmintonScoreValidator(), new BadmintonWinnerGetter())
+        public Badminton(int id, int minPlayersCount, int maxPlayersCount) : base(id, SportType.Badminton, minPlayersCount, maxPlayersCount, new BadmintonScoreValidator(), new BadmintonWinnerGetter(), new BadmintonGamesValidator())
         {
         }
     }
@@ -52,6 +52,15 @@ namespace duelsys
             }
 
             return winner;
+        }
+    }
+
+    public class BadmintonGamesValidator : IGamesValidator
+    {
+        public void AssertCorrectGames(List<Game> g1, List<Game> g2)
+        {
+            if (g1.Count >= 3 && g2.Count >= 3)
+                throw new InvalidGamesException("Cannot add more than 3 games for a Badminton match");
         }
     }
     public class BadmintonScoreValidator : IGameScoreValidator
