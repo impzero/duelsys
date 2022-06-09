@@ -130,10 +130,9 @@ namespace desktop
             {
                 tService.GenerateSchedule(true, CurrentTournamentId);
             }
-            catch (Exception)
+            catch (Exception exception)
             {
-                throw;
-                //MessageBox.Show(exception.Message);
+                MessageBox.Show(exception.Message);
             }
         }
 

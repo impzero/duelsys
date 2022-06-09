@@ -26,7 +26,7 @@ public class BadmintonGame : Game
             if (playerOneGames.Count != playerTwoGames.Count)
                 throw new InvalidMatchException("Number of games need to match between players");
 
-            var gameResult = new Dictionary<UserBase, int>();
+            var gameResult = new Dictionary<int, int>();
             foreach (var firstPlayerGame in playerOneGames)
             {
                 foreach (var secondPlayerGame in playerTwoGames)
@@ -34,27 +34,31 @@ public class BadmintonGame : Game
                     var playerOneResult = new BadmintonGame(firstPlayerGame);
                     var playerTwoResult = new BadmintonGame(secondPlayerGame);
 
+                    if (!gameResult.ContainsKey(playerOneResult.User.Id))
+                        gameResult.Add(playerOneResult.User.Id, 0);
+
+                    if (!gameResult.ContainsKey(playerTwoResult.User.Id))
+                        gameResult.Add(playerTwoResult.User.Id, 0);
+
                     if (playerOneResult.GetResult() > playerTwoResult.GetResult())
-                    {
-                        gameResult[playerOneResult.User] += 1;
-                    }
+                        gameResult[playerOneResult.User.Id] += 1;
                     else if (playerOneResult.GetResult() < playerTwoResult.GetResult())
-                    {
-                        gameResult[playerTwoResult.User] += 1;
-                    }
-                    else
-                        throw new InvalidMatchException("Match cannot end in draw");
+                        gameResult[playerTwoResult.User.Id] += 1;
                 }
             }
 
-            var winner = gameResult.ElementAt(0).Key;
+            UserBase winner = playerOneGames[0].User;
             var score = 0;
             foreach (var result in gameResult)
             {
-                if (result.Value >= score)
+                if (result.Value > score)
                 {
-                    winner = result.Key;
+                    if (playerOneGames[1].User.Id == result.Key)
+                        winner = playerOneGames[1].User;
+
+                    score = result.Value;
                 }
+
             }
 
             return winner;

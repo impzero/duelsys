@@ -53,7 +53,8 @@ public class LeaderboardUser
     public int Id { get; private set; }
     public string FirstName { get; private set; }
     public string LastName { get; private set; }
-    public int Points { get; set; }
+    public int WonGames { get; set; }
+    public int LostGames { get; set; }
 
     public LeaderboardUser(int id, string firstName, string lastName)
     {

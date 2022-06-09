@@ -10,6 +10,8 @@
     {
         public int Id { get; set; }
         public DateTime Date { get; set; }
+        public UserBase FirstPlayer { get; set; }
+        public UserBase SecondPlayer { get; set; }
         public List<Game> PlayerOneGames { get; private set; }
         public List<Game> PlayerTwoGames { get; private set; }
 
@@ -26,6 +28,12 @@
             Date = date;
             PlayerOneGames = playerOneGames;
             PlayerTwoGames = playerTwoGames;
+
+            if (playerOneGames.Count <= 1 || playerTwoGames.Count <= 1)
+                return;
+
+            FirstPlayer = playerOneGames[0].User;
+            SecondPlayer = playerTwoGames[0].User;
         }
 
         public void RegisterResult(IMatchResultValidator matchResultValidator, IGameScoreValidator scoreValidator, Game playerOneGame, Game playerTwoGame)

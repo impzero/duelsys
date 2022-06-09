@@ -51,7 +51,7 @@ public class TournamentService
 
             return TournamentStore.SaveTournament(t, args.SportId, args.TournamentSystemId);
         }
-        catch (TournamentException)
+        catch (InvalidTournamentException)
         {
             throw;
         }
@@ -116,7 +116,7 @@ public class TournamentService
 
             return TournamentStore.GetTournamentById(t.Id);
         }
-        catch (TournamentException)
+        catch (InvalidTournamentException)
         {
             throw;
         }
@@ -140,7 +140,7 @@ public class TournamentService
             t.GenerateSchedule();
             MatchStore.SaveMatches(t.PlayerPairs, tId);
         }
-        catch (TournamentException)
+        catch (InvalidTournamentException)
         {
             throw;
         }
@@ -162,7 +162,7 @@ public class TournamentService
             var tournamentUser = t.RegisterPlayer(new UserBase(u.Id, u.FirstName, u.SecondName));
             TournamentStore.SavePlayer(tournamentUser.TournamentId, tournamentUser.UserId);
         }
-        catch (TournamentException)
+        catch (InvalidTournamentException)
         {
             throw;
         }
@@ -215,7 +215,7 @@ public class TournamentService
             var match = t.RegisterResult(args.MatchId, g1, g2);
             MatchStore.SaveMatchResult(match.Id, g1, g2);
         }
-        catch (TournamentException)
+        catch (InvalidTournamentException)
         {
             throw;
         }
@@ -241,7 +241,7 @@ public class TournamentService
             var t = TournamentStore.GetTournamentById(tId);
             return t.GetLeaderboard();
         }
-        catch (TournamentException)
+        catch (InvalidTournamentException)
         {
             throw;
         }

@@ -20,12 +20,13 @@ public partial class LeaderboardViewer : Form
             var leaderboard = tService.GetLeaderboard(TournamentId);
             foreach (var user in leaderboard.Select(result => result.Value))
             {
-                listBox1.Items.Add(user.FirstName + " " + user.LastName + " - " + user.Points + " points");
+                listBox1.Items.Add(user.FirstName + " " + user.LastName + " - " + user.WonGames + " won, " + user.LostGames + " lost");
             }
         }
         catch (Exception exception)
         {
             MessageBox.Show(exception.Message);
+            Close();
         }
     }
 }
