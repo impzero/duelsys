@@ -35,7 +35,7 @@ public class TournamentBase
         if ((startingDate - DateTime.Now).TotalDays < 7)
             throw new TournamentException($"Cannot create tournament starting earlier than 7 days from now ({DateTime.Now})");
 
-        if ((endingDate - endingDate).TotalDays < 1)
+        if ((endingDate - startingDate).TotalDays < 1)
             throw new TournamentException("Cannot create tournament with duration less than one day");
 
         return new TournamentBase(id, description, location, startingDate, endingDate, sport, tournamentSystem);
@@ -119,6 +119,8 @@ public class Tournament : TournamentBase
         if (Sport.MatchResultValidator is null)
             throw new Exception("Winner getter not initialized");
 
+        if (Matches.Count < 0)
+            throw new TournamentException("Tournament should have a schedule before generating a leaderboard");
         Matches.ForEach(m =>
         {
             Sport.MatchResultValidator.AssertCorrectMatchResult(m.PlayerOneGames, m.PlayerTwoGames);

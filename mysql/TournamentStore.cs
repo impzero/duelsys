@@ -199,9 +199,6 @@ WHERE FIND_IN_SET(m.id, @match_ids)";
             new MySqlParameter("match_ids", matchIds)
         );
 
-        if (!reader.HasRows)
-            throw new Exception("No tournament found");
-
         var gameMatches = new Dictionary<Match, Dictionary<int, List<Game>>>();
         while (reader.Read())
         {

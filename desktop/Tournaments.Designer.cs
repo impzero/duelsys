@@ -30,6 +30,7 @@
         {
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.button7 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
@@ -62,7 +63,6 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.button3 = new System.Windows.Forms.Button();
             this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.button7 = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -98,6 +98,18 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Home";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // button7
+            // 
+            this.button7.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.button7.Location = new System.Drawing.Point(384, 59);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(139, 37);
+            this.button7.TabIndex = 6;
+            this.button7.Text = "Generate Leaderboard";
+            this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.button7_Click);
             // 
             // button6
             // 
@@ -445,17 +457,6 @@
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Edit";
             this.tabPage3.UseVisualStyleBackColor = true;
-            // 
-            // button7
-            // 
-            this.button7.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.button7.Location = new System.Drawing.Point(384, 59);
-            this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(139, 37);
-            this.button7.TabIndex = 6;
-            this.button7.Text = "Generate Leaderboard";
-            this.button7.UseVisualStyleBackColor = true;
             // 
             // Tournaments
             // 

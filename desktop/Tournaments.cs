@@ -143,5 +143,12 @@ namespace desktop
             form.TournamentId = CurrentTournamentId;
             form.ShowDialog();
         }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            using var form = Program.ServiceProvider.GetRequiredService<LeaderboardViewer>();
+            form.TournamentId = CurrentTournamentId;
+            form.ShowDialog();
+        }
     }
 }

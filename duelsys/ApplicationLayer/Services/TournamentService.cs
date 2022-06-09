@@ -169,7 +169,8 @@ public class TournamentService
         catch (Exception e)
         {
             Console.WriteLine(e);
-            throw new Exception("Failed creating tournament");
+            throw;
+            throw new Exception("Failed registering for a tournament");
         }
     }
 
@@ -239,6 +240,10 @@ public class TournamentService
         {
             var t = TournamentStore.GetTournamentById(tId);
             return t.GetLeaderboard();
+        }
+        catch (TournamentException)
+        {
+            throw;
         }
         catch (InvalidMatchException)
         {
