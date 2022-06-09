@@ -46,4 +46,7 @@ public class BadmintonMatchResultValidator
         Assert.ThrowsException<InvalidMatchException>(() => validator.AssertCorrectMatchResultInserted(g3, g4));
         Assert.ThrowsException<InvalidMatchException>(() => validator.AssertCorrectMatchResultInserted(g5, g6));
     }
+
+    //TODO
+    // Test the AssertCorrectMatchResult method
 }

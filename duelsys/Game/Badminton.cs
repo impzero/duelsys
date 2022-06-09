@@ -53,8 +53,8 @@ public class BadmintonGame : Game
             {
                 if (result.Value > score)
                 {
-                    if (playerOneGames[1].User.Id == result.Key)
-                        winner = playerOneGames[1].User;
+                    if (winner.Id != result.Key)
+                        winner = playerTwoGames[0].User;
 
                     score = result.Value;
                 }
