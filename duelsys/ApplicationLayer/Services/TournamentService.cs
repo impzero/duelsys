@@ -40,14 +40,25 @@ public class TournamentService
         if (!isAdmin)
             throw new Exception("User must be an admin in order to create a tournament");
 
-        var t = TournamentBase.CreateTournamentBase(
-            args.Description,
-            args.Location,
-            args.StartingDate,
-            args.EndingDate
-            );
+        try
+        {
+            var t = TournamentBase.CreateTournamentBase(
+                args.Description,
+                args.Location,
+                args.StartingDate,
+                args.EndingDate
+                );
 
-        return TournamentStore.SaveTournament(t, args.SportId, args.TournamentSystemId);
+            return TournamentStore.SaveTournament(t, args.SportId, args.TournamentSystemId);
+        }
+        catch (TournamentException)
+        {
+            throw;
+        }
+        catch (Exception)
+        {
+            throw new Exception("Failed creating a tournament");
+        }
     }
 
     public List<TournamentBase> GetTournaments() => TournamentStore.GetTournaments();
@@ -91,18 +102,28 @@ public class TournamentService
         if (!isAdmin)
             throw new Exception("User must be an admin in order to edit");
 
-        var t = TournamentBase.CreateTournamentBase(
-            args.TournamentSystemId,
-                   args.Description,
-                   args.Location,
-                   args.StartingDate,
-                   args.EndingDate
-                   );
+        try
+        {
+            var t = TournamentBase.CreateTournamentBase(
+                args.TournamentSystemId,
+                args.Description,
+                args.Location,
+                args.StartingDate,
+                args.EndingDate
+            );
+            if (!TournamentStore.UpdateTournamentById(t, args.TournamentSystemId))
+                throw new Exception();
 
-        if (!TournamentStore.UpdateTournamentById(t, args.TournamentSystemId))
-            throw new Exception("There was an error updating the tournament");
-
-        return TournamentStore.GetTournamentById(t.Id);
+            return TournamentStore.GetTournamentById(t.Id);
+        }
+        catch (TournamentException)
+        {
+            throw;
+        }
+        catch (Exception)
+        {
+            throw new Exception("Failed editing tournament");
+        }
     }
 
     public void GenerateSchedule(bool isAdmin, int tId)
@@ -132,7 +153,6 @@ public class TournamentService
 
     public void Register(int tId, Views.UserBase u)
     {
-
         // TODO
         // Put in transaction without leaking implementation details
         // with update fn pattern

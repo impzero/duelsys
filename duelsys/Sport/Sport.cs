@@ -11,9 +11,9 @@ public interface IWinnerGetter
     UserBase DecideWinner(List<Game> playerOneGames, List<Game> playerTwoGames);
 }
 
-public interface IGamesValidator
+public interface IMatchResultValidator
 {
-    void AssertCorrectGames(List<Game> g1, List<Game> g2);
+    void AssertCorrectMatchResult(List<Game> g1, List<Game> g2);
 }
 
 public class Sport
@@ -24,7 +24,7 @@ public class Sport
     public int MaxPlayersCount { get; set; }
     public IGameScoreValidator? GameScoreValidator { get; set; }
     public IWinnerGetter? WinnerGetter { get; private set; }
-    public IGamesValidator? GamesValidator { get; private set; }
+    public IMatchResultValidator? MatchResultValidator { get; private set; }
 
     public Sport(int id, string name, int minPlayersCount, int maxPlayersCount)
     {
@@ -34,7 +34,7 @@ public class Sport
         MaxPlayersCount = maxPlayersCount;
     }
 
-    public Sport(int id, string name, int minPlayersCount, int maxPlayersCount, IGameScoreValidator gameScoreValidator, IWinnerGetter winnerGetter, IGamesValidator gamesValidator)
+    public Sport(int id, string name, int minPlayersCount, int maxPlayersCount, IGameScoreValidator gameScoreValidator, IWinnerGetter winnerGetter, IMatchResultValidator matchResultValidator)
     {
         Id = id;
         Name = name;
@@ -42,7 +42,7 @@ public class Sport
         MaxPlayersCount = maxPlayersCount;
         GameScoreValidator = gameScoreValidator;
         WinnerGetter = winnerGetter;
-        GamesValidator = gamesValidator;
+        MatchResultValidator = matchResultValidator;
     }
 }
 
@@ -67,6 +67,5 @@ public class SportType
 {
     public static string Badminton = "Badminton";
     public static string Basketball = "Basketball";
+    public static string ClashRoyale = "Clash Royale";
 }
-
-

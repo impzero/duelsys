@@ -1,4 +1,5 @@
 ﻿namespace duelsys.ApplicationLayer.Views;
+
 public class MatchPair
 {
     public int Id { get; private set; }

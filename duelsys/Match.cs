@@ -3,7 +3,7 @@
     public interface IMatch
     {
         public UserBase GetWinner(IWinnerGetter winnerGetter);
-        public void RegisterResult(IGamesValidator gamesValidator, IGameScoreValidator scoreValidator, Game p1, Game p2);
+        public void RegisterResult(IMatchResultValidator matchResultValidator, IGameScoreValidator scoreValidator, Game p1, Game p2);
     }
 
     public class Match : IMatch
@@ -28,10 +28,10 @@
             PlayerTwoGames = playerTwoGames;
         }
 
-        public void RegisterResult(IGamesValidator gamesValidator, IGameScoreValidator scoreValidator, Game playerOneGame, Game playerTwoGame)
+        public void RegisterResult(IMatchResultValidator matchResultValidator, IGameScoreValidator scoreValidator, Game playerOneGame, Game playerTwoGame)
         {
             scoreValidator.AssertCorrectGameScore(playerOneGame, playerTwoGame);
-            gamesValidator.AssertCorrectGames(PlayerOneGames, PlayerTwoGames);
+            matchResultValidator.AssertCorrectMatchResult(PlayerOneGames, PlayerTwoGames);
 
             PlayerOneGames.Add(new BadmintonGame(playerOneGame));
             PlayerTwoGames.Add(new BadmintonGame(playerTwoGame));
