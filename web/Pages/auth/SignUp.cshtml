@@ -1,0 +1,29 @@
+﻿@page
+@model web.Pages.auth.SignUpModel
+@{
+    ViewData["Title"] = "Sign up";
+}
+
+<form class="auth-form" method="post">
+    <h1>Sign up</h1>
+    <div  asp-validation-summary="ModelOnly"></div>
+
+    <label asp-for="Credentials.FirstName">First Name</label>
+    <input type="text" asp-for="Credentials.FirstName" class="form-control" />
+    <span class="text-danger" asp-validation-for="Credentials.FirstName"></span>
+
+    <label asp-for="Credentials.LastName">Last Name</label>
+    <input type="text" asp-for="Credentials.LastName" class="form-control" />
+    <span class="text-danger" asp-validation-for="Credentials.LastName"></span>
+
+    <label asp-for="Credentials.Email">Email</label>
+    <input type="text" asp-for="Credentials.Email" class="form-control" />
+    <span class="text-danger" asp-validation-for="Credentials.Email"></span>
+
+    <label asp-for="Credentials.Password">Password</label>
+    <input type="password" asp-for="Credentials.Password" class="form-control" />
+    <span class="text-danger" asp-validation-for="Credentials.Password"></span>
+
+    <button type="submit">Sign up</button>
+    <a asp-page="/auth/SignIn">sign in</a>
+</form>

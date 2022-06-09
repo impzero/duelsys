@@ -17,7 +17,7 @@ namespace duelsys_test
         [DataRow("26", "24")]
         public void Assert_ValidScore(string scoreOne, string scoreTwo)
         {
-            var rule = new BadmintonScoreValidator();
+            var rule = new BadmintonGame.BadmintonScoreValidator();
             var u1 = new UserBase(1, "broski", "with everything");
             var u2 = new UserBase(1, "iii", "everything");
 

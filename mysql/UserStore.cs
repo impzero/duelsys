@@ -58,6 +58,7 @@ namespace mysql
                 query,
                 new MySqlParameter("first_name", u.FirstName),
                 new MySqlParameter("last_name", u.LastName),
+                new MySqlParameter("email", u.Email),
                 new MySqlParameter("password", u.Password),
                 new MySqlParameter("is_admin", u.IsAdmin)
             );

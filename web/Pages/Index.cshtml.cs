@@ -1,20 +1,23 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using duelsys;
+using duelsys.ApplicationLayer.Services;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace web.Pages
 {
     public class IndexModel : PageModel
     {
-        private readonly ILogger<IndexModel> _logger;
+        public List<TournamentBase> TournamentBases { get; set; }
+        public TournamentService tService { get; set; }
 
-        public IndexModel(ILogger<IndexModel> logger)
+
+        public IndexModel(TournamentService t)
         {
-            _logger = logger;
+            tService = t;
         }
 
         public void OnGet()
         {
-
+            TournamentBases = tService.GetTournaments();
         }
     }
 }

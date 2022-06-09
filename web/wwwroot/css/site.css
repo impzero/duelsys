@@ -1,18 +1,45 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
+    width: 100%;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
+    width: 100%;
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+}
+
+.tournament-list {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.tournament-card {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+}
+
+.tournament-description .tournament-location, tournament-starting-date, tournament-ending-date {
+    display: flex;
+    width: 100%;
+    justify-content: flex-start;
+    flex-direction: column;
+}
+
+td {
+    padding-right: 2rem;
 }
