@@ -6,4 +6,9 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\duelsys\duelsys.csproj" />
+    <ProjectReference Include="..\mysql\mysql.csproj" />
+  </ItemGroup>
+
 </Project>
