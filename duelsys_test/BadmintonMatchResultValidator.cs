@@ -9,7 +9,7 @@ namespace duelsys_test;
 public class BadmintonMatchResultValidator
 {
     [TestMethod]
-    public void Assert_ValidMatch()
+    public void AssertCorrectMatchResultInserted_ValidMatch()
     {
         var validator = new BadmintonGame.BadmintonMatchResultValidator();
 
@@ -26,7 +26,7 @@ public class BadmintonMatchResultValidator
     }
 
     [TestMethod]
-    public void Assert_InvalidMatch()
+    public void AssertCorrectMatchResultInserted_InvalidMatch()
     {
         var validator = new BadmintonGame.BadmintonMatchResultValidator();
 

@@ -16,7 +16,7 @@ public class BadmintonScoreRuleTests
     [DataRow("22", "20")]
     [DataRow("24", "22")]
     [DataRow("26", "24")]
-    public void Assert_ValidScore(string scoreOne, string scoreTwo)
+    public void AssertCorrectGameScore_ValidScore(string scoreOne, string scoreTwo)
     {
         var rule = new BadmintonGame.BadmintonScoreValidator();
         var u1 = new UserBase(1, "broski", "with everything");
@@ -33,7 +33,7 @@ public class BadmintonScoreRuleTests
     [DataRow("20", "20")]
     [DataRow("21", "21")]
     [DataRow("25", "25")]
-    public void Assert_ThrowsError(string scoreOne, string scoreTwo)
+    public void AssertCorrectGameScore_ThrowsError(string scoreOne, string scoreTwo)
     {
         var rule = new BadmintonGame.BadmintonScoreValidator();
         var u1 = new UserBase(1, "broski", "with everything");
