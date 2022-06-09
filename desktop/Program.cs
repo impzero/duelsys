@@ -45,7 +45,7 @@ namespace desktop
             var tsService = new TournamentSystemService(tournamentSystemStore);
             var sService = new SportService(sportStore);
             var uService = new UserService(userStore);
-            var mService = new MatchService(matchStore);
+            var mService = new MatchService(matchStore, tournamentStore);
 
             return Host.CreateDefaultBuilder()
                 .ConfigureServices((_, services) =>

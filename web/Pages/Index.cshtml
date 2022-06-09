@@ -4,8 +4,22 @@
     ViewData["Title"] = "Home page";
 }
 
+<script>
+    const onRegister = (tId) => {
+        const form = document.getElementById("tournament-form")
+        const input = document.getElementById("tournament-input")
+
+        input.value= tId
+        form.submit()
+    }
+</script>
 @if (User.Identity!.IsAuthenticated)
 {
+    if (!string.IsNullOrEmpty(Model.Error))
+    {
+        <p class="tournament-error-box">@Model.Error</p>
+    }
+
     <table>
         <tr>
             <th>Description</th>
@@ -17,19 +31,23 @@
             <th>Max Players</th>
             <th>System</th>
         </tr>
-        @foreach (var t in Model.TournamentBases)
-        {
+        <form id="tournament-form" method="post">
+            <input id="tournament-input" type="hidden" asp-for="TournamentId" />
+            @foreach (var t in Model.TournamentBases)
+            {
             <tr>
                 <td>@t.Description</td>
                 <td>@t.Location</td>
-                <td>@t.StartingDate</td>
-                <td>@t.EndingDate</td>
+                <td>@t.StartingDate.ToString("dddd, dd MMMM yyyy")</td>
+                <td>@t.EndingDate.ToString("dddd, dd MMMM yyyy")</td>
                 <td>@t.Sport.Name</td>
                 <td>@t.Sport.MinPlayersCount</td>
                 <td>@t.Sport.MaxPlayersCount</td>
                 <td>@t.TournamentSystem.GetType().Name</td>
-                <td><button>register</button></td>
+                <td><button onclick="onRegister(@t.Id)">register</button></td>
+                <td><a asp-Page="Tournament" asp-route-TournamentId="@t.Id">view</a></td>
             </tr>
-        }
+            }
+        </form>
     </table>
 }

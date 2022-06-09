@@ -29,7 +29,7 @@ var tService = new TournamentService(tournamentStore, matchStore, gameStore);
 var tsService = new TournamentSystemService(tournamentSystemStore);
 var sService = new SportService(sportStore);
 var uService = new UserService(userStore);
-var mService = new MatchService(matchStore);
+var mService = new MatchService(matchStore, tournamentStore);
 
 builder.Services.AddSingleton(aService);
 builder.Services.AddSingleton(tService);

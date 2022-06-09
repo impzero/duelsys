@@ -169,7 +169,6 @@ public class TournamentService
         catch (Exception e)
         {
             Console.WriteLine(e);
-            throw;
             throw new Exception("Failed registering for a tournament");
         }
     }

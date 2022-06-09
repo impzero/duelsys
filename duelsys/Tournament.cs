@@ -79,6 +79,9 @@ public class Tournament : TournamentBase
 
     public TournamentUser RegisterPlayer(UserBase player)
     {
+        if (Players.Exists(u => u.Id == player.Id))
+            throw new InvalidTournamentException("Cannot register for the same tournament more than once");
+
         if ((StartingDate - DateTime.Now).TotalDays < 7)
             throw new InvalidTournamentException("It is too late to register for this tournament");
 

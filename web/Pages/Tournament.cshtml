@@ -1,0 +1,55 @@
+﻿@page
+@model web.Pages.TournamentModel
+@{
+}
+
+@if (!string.IsNullOrEmpty(Model.Error))
+{
+    <p class="tournament-error-box">@Model.Error</p>
+}
+
+<h2>Tournament information</h2>
+
+<div>sport: <b>@Model.Tournament.Sport.Name</b></div>
+<div>system: <b>@Model.Tournament.TournamentSystem.GetType().Name (3 games match)</b></div>
+<div>location: <b>@Model.Tournament.Location</b></div>
+<div>start date: <b>@Model.Tournament.StartingDate.ToString("dddd, dd MMMM yyyy")</b></div>
+<div>ending date: <b>@Model.Tournament.EndingDate.ToString("dddd, dd MMMM yyyy")</b></div>
+
+<table class="leaderboard">
+    <tr>
+        <th class="rank">Rank</th>
+        <th class="player">Player</th>
+        <th class="won">Won</th>
+        <th class="lost">Lost</th>
+    </tr>
+    @for (int i = 0; i < Model.TournamentLeaderboard.Count; i++)
+    {
+        var user = Model.TournamentLeaderboard[i];
+        <tr>
+            <td>@(i+1)</td>
+            <td>@(user.FirstName + " " + user.LastName)</td>
+            <td>@user.WonGames</td>
+            <td>@user.LostGames</td>
+
+        </tr>
+    }
+</table>
+
+<table class="matches">
+    <tr>
+        <th class="match-index">#</th>
+        <th class="matches">Matches</th>
+        <th class="match-winner">Winner</th>
+    </tr>
+    @for (int i = 0; i < Model.Tournament.Matches.Count; i++)
+    {
+        var match = Model.Tournament.Matches[i];
+        <tr>
+            <td>@(i+1)</td>
+            <td>@(match.FirstPlayer.Names + " vs " + match.SecondPlayer.Names)</td>
+            <td>@(Model.Tournament.GetMatchWinner(match.Id).Names)</td>
+        </tr>
+    }
+</table>
+

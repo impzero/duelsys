@@ -40,6 +40,29 @@ body {
     flex-direction: column;
 }
 
+th {
+    padding-right: 2rem;
+}
 td {
     padding-right: 2rem;
 }
+
+th {
+    background-color: grey;
+    border: solid 1px black;
+}
+
+.tournament-error-box {
+    background-color: red;
+    padding: 2rem;
+    color: white;
+}
+
+.leaderboard-row {
+    width: 100%;
+}
+
+.rank {
+    width: 1rem;
+}
+

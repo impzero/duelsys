@@ -58,7 +58,6 @@ public class BadmintonGame : Game
 
                     score = result.Value;
                 }
-
             }
 
             return winner;
@@ -70,6 +69,9 @@ public class BadmintonGame : Game
         public void AssertCorrectMatchResultInserted(List<Game> g1, List<Game> g2)
         {
             if (g1.Count >= 3 && g2.Count >= 3)
+                throw new InvalidMatchException("Cannot add more than 3 games for a Badminton match");
+
+            if (g1.Count >= 3 || g2.Count >= 3)
                 throw new InvalidMatchException("Cannot add more than 3 games for a Badminton match");
         }
         public void AssertCorrectMatchResult(List<Game> g1, List<Game> g2)

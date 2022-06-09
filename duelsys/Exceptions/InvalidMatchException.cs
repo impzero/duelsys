@@ -1,6 +1,6 @@
 ﻿namespace duelsys.Exceptions;
 
-class InvalidMatchException : Exception
+public class InvalidMatchException : Exception
 {
     public InvalidMatchException()
     {
