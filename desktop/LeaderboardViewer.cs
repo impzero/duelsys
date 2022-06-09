@@ -18,9 +18,11 @@ public partial class LeaderboardViewer : Form
         try
         {
             var leaderboard = tService.GetLeaderboard(TournamentId);
-            foreach (var user in leaderboard.Select(result => result.Value))
+            var users = leaderboard.Select(result => result.Value).ToList();
+
+            for (int i = 0; i < users.Count; i++)
             {
-                listBox1.Items.Add(user.FirstName + " " + user.LastName + " - " + user.WonGames + " won, " + user.LostGames + " lost");
+                listBox1.Items.Add($"{i + 1}. " + users[i].Stringify);
             }
         }
         catch (Exception exception)

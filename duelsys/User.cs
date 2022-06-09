@@ -56,6 +56,8 @@ public class LeaderboardUser
     public int WonGames { get; set; }
     public int LostGames { get; set; }
 
+    public string Stringify => $"{FirstName} {LastName} ({WonGames} won, {LostGames} lost)";
+
     public LeaderboardUser(int id, string firstName, string lastName)
     {
         Id = id;
