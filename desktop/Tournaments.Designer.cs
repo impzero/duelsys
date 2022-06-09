@@ -62,6 +62,7 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.button3 = new System.Windows.Forms.Button();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.button7 = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -85,6 +86,7 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.button7);
             this.tabPage2.Controls.Add(this.button6);
             this.tabPage2.Controls.Add(this.button5);
             this.tabPage2.Controls.Add(this.button1);
@@ -444,6 +446,17 @@
             this.tabPage3.Text = "Edit";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
+            // button7
+            // 
+            this.button7.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.button7.Location = new System.Drawing.Point(384, 59);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(139, 37);
+            this.button7.TabIndex = 6;
+            this.button7.Text = "Generate Leaderboard";
+            this.button7.UseVisualStyleBackColor = true;
+            // 
             // Tournaments
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -499,5 +512,6 @@
         private TextBox textBox4;
         private Button button5;
         private Button button6;
+        private Button button7;
     }
 }

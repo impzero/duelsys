@@ -222,7 +222,7 @@ public class TournamentService
         {
             throw;
         }
-        catch (InvalidGamesException)
+        catch (InvalidMatchException)
         {
             throw;
         }
@@ -230,6 +230,23 @@ public class TournamentService
         {
             Console.WriteLine(e);
             throw new Exception("Failed to register match result");
+        }
+    }
+
+    public Dictionary<int, LeaderboardUser> GetLeaderboard(int tId)
+    {
+        try
+        {
+            var t = TournamentStore.GetTournamentById(tId);
+            return t.GetLeaderboard();
+        }
+        catch (InvalidMatchException)
+        {
+            throw;
+        }
+        catch (Exception)
+        {
+            throw new Exception("Failed getting leaderboard");
         }
     }
 }

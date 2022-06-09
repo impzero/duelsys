@@ -60,6 +60,7 @@ namespace desktop
                     services.AddTransient<Tournaments>();
                     services.AddTransient<PlayerRegisterer>();
                     services.AddTransient<MatchResultRegister>();
+                    services.AddTransient<LeaderboardViewer>();
                 });
         }
     }

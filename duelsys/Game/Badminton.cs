@@ -16,15 +16,15 @@ public class BadmintonGame : Game
     {
         return Convert.ToInt32(base.Result);
     }
-    public class BadmintonWinnerGetter : IWinnerGetter
+    public class BadmintonMatchWinnerGetter : IWinnerGetter
     {
         public UserBase DecideWinner(List<Game> playerOneGames, List<Game> playerTwoGames)
         {
             if (playerOneGames.Count < 3 || playerTwoGames.Count < 3)
-                throw new Exception("Minimum of 3 games need to be played in order to determine the winner");
+                throw new InvalidMatchException("Minimum of 3 games need to be played in order to determine the winner");
 
             if (playerOneGames.Count != playerTwoGames.Count)
-                throw new Exception("Number of games need to match between players");
+                throw new InvalidMatchException("Number of games need to match between players");
 
             var gameResult = new Dictionary<UserBase, int>();
             foreach (var firstPlayerGame in playerOneGames)
@@ -43,7 +43,7 @@ public class BadmintonGame : Game
                         gameResult[playerTwoResult.User] += 1;
                     }
                     else
-                        throw new Exception("Match cannot end in draw");
+                        throw new InvalidMatchException("Match cannot end in draw");
                 }
             }
 
@@ -66,12 +66,12 @@ public class BadmintonGame : Game
         public void AssertCorrectMatchResultInserted(List<Game> g1, List<Game> g2)
         {
             if (g1.Count >= 3 && g2.Count >= 3)
-                throw new InvalidGamesException("Cannot add more than 3 games for a Badminton match");
+                throw new InvalidMatchException("Cannot add more than 3 games for a Badminton match");
         }
         public void AssertCorrectMatchResult(List<Game> g1, List<Game> g2)
         {
             if (g1.Count < 1 || g2.Count < 1)
-                throw new InvalidGamesException("Match should contain games");
+                throw new InvalidMatchException("Match should contain games");
         }
     }
 

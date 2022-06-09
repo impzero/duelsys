@@ -10,7 +10,7 @@ public class Badminton : Sport
             minPlayersCount,
             maxPlayersCount,
             new BadmintonGame.BadmintonScoreValidator(),
-            new BadmintonGame.BadmintonWinnerGetter(),
+            new BadmintonGame.BadmintonMatchWinnerGetter(),
             new BadmintonGame.BadmintonMatchResultValidator()
         )
     {

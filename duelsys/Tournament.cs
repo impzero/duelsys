@@ -114,7 +114,7 @@ public class Tournament : TournamentBase
         return winner;
     }
 
-    public Dictionary<int, int> GetLeaderboard(int matchId)
+    public Dictionary<int, LeaderboardUser> GetLeaderboard()
     {
         if (Sport.MatchResultValidator is null)
             throw new Exception("Winner getter not initialized");
@@ -127,16 +127,16 @@ public class Tournament : TournamentBase
         if (Sport.WinnerGetter is null)
             throw new Exception("Winner getter not initialized");
 
-        var leaderboard = new Dictionary<int, int>();
+        var leaderboard = new Dictionary<int, LeaderboardUser>();
         foreach (var winner in Matches.Select(match => match.GetWinner(Sport.WinnerGetter)))
         {
             if (!leaderboard.ContainsKey(winner.Id))
-                leaderboard.Add(winner.Id, 0);
+                leaderboard.Add(winner.Id, new LeaderboardUser(winner.Id, winner.FirstName, winner.SecondName));
 
-            leaderboard[winner.Id] += 1;
+            leaderboard[winner.Id].Points += 1;
         }
 
-        return new Dictionary<int, int>(leaderboard.OrderByDescending(kv => kv.Value));
+        return new Dictionary<int, LeaderboardUser>(leaderboard.OrderByDescending(kv => kv.Value.Points));
     }
 }
 
