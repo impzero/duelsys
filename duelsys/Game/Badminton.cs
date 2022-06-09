@@ -63,10 +63,15 @@ public class BadmintonGame : Game
 
     public class BadmintonMatchResultValidator : IMatchResultValidator
     {
-        public void AssertCorrectMatchResult(List<Game> g1, List<Game> g2)
+        public void AssertCorrectMatchResultInserted(List<Game> g1, List<Game> g2)
         {
             if (g1.Count >= 3 && g2.Count >= 3)
                 throw new InvalidGamesException("Cannot add more than 3 games for a Badminton match");
+        }
+        public void AssertCorrectMatchResult(List<Game> g1, List<Game> g2)
+        {
+            if (g1.Count < 1 || g2.Count < 1)
+                throw new InvalidGamesException("Match should contain games");
         }
     }
 

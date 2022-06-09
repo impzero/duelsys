@@ -114,6 +114,33 @@ public class Tournament : TournamentBase
         return winner;
     }
 
+    public Dictionary<int, int> GetLeaderboard(int matchId)
+    {
+
+        if (Sport.MatchResultValidator is null)
+            throw new Exception("Winner getter not initialized");
+
+        Matches.ForEach(m =>
+        {
+            Sport.MatchResultValidator.AssertCorrectMatchResult(m.PlayerOneGames, m.PlayerTwoGames);
+        });
+
+        if (Sport.WinnerGetter is null)
+            throw new Exception("Winner getter not initialized");
+
+        var leaderboard = new Dictionary<int, int>();
+        foreach (var match in Matches)
+        {
+            var winner = match.GetWinner(Sport.WinnerGetter);
+
+            if (!leaderboard.ContainsKey(winner.Id))
+                leaderboard.Add(winner.Id, 0);
+
+            leaderboard[winner.Id] += 1;
+        }
+
+        return leaderboard;
+    }
 }
 
 public class TournamentUser

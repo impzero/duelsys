@@ -13,6 +13,7 @@ public interface IWinnerGetter
 
 public interface IMatchResultValidator
 {
+    void AssertCorrectMatchResultInserted(List<Game> g1, List<Game> g2);
     void AssertCorrectMatchResult(List<Game> g1, List<Game> g2);
 }
 

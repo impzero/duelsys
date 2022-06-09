@@ -31,7 +31,7 @@
         public void RegisterResult(IMatchResultValidator matchResultValidator, IGameScoreValidator scoreValidator, Game playerOneGame, Game playerTwoGame)
         {
             scoreValidator.AssertCorrectGameScore(playerOneGame, playerTwoGame);
-            matchResultValidator.AssertCorrectMatchResult(PlayerOneGames, PlayerTwoGames);
+            matchResultValidator.AssertCorrectMatchResultInserted(PlayerOneGames, PlayerTwoGames);
 
             PlayerOneGames.Add(new BadmintonGame(playerOneGame));
             PlayerTwoGames.Add(new BadmintonGame(playerTwoGame));
