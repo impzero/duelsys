@@ -55,30 +55,6 @@ public class Tournament : TournamentBase
         Matches = new List<Match>();
     }
 
-    public Match RegisterResult(int matchId, Game g1, Game g2)
-    {
-        var match = Matches.Single(m => m.Id == matchId);
-
-        if (Sport.GameScoreValidator != null && Sport.GamesValidator != null)
-            match.RegisterResult(Sport.GamesValidator, Sport.GameScoreValidator, g1, g2);
-
-        return match;
-    }
-
-    public UserBase GetMatchWinner(int matchId)
-    {
-        var match = Matches.Single(m => m.Id == matchId);
-
-        if (match is null)
-            throw new TournamentException("Match was not found");
-
-        UserBase winner = default;
-        if (Sport.WinnerGetter != null)
-            winner = match.GetWinner(Sport.WinnerGetter);
-
-        return winner;
-    }
-
     public Tournament(int id, string description, string location, DateTime startingDate, DateTime endingDate, Sport sport, ITournamentSystem tournamentSystem, List<UserBase> players) : base(id, description, location, startingDate, endingDate, sport, tournamentSystem)
     {
         PlayerPairs = new List<MatchPair>();
@@ -91,7 +67,6 @@ public class Tournament : TournamentBase
         Players = players;
         Matches = matches;
     }
-
 
     public void GenerateSchedule()
     {
@@ -114,6 +89,31 @@ public class Tournament : TournamentBase
 
         return new TournamentUser(Id, player.Id);
     }
+
+    public Match RegisterResult(int matchId, Game g1, Game g2)
+    {
+        var match = Matches.Single(m => m.Id == matchId);
+
+        if (Sport.GameScoreValidator != null && Sport.MatchResultValidator != null)
+            match.RegisterResult(Sport.MatchResultValidator, Sport.GameScoreValidator, g1, g2);
+
+        return match;
+    }
+
+    public UserBase GetMatchWinner(int matchId)
+    {
+        var match = Matches.Single(m => m.Id == matchId);
+
+        if (match is null)
+            throw new TournamentException("Match was not found");
+
+        UserBase winner = default;
+        if (Sport.WinnerGetter != null)
+            winner = match.GetWinner(Sport.WinnerGetter);
+
+        return winner;
+    }
+
 }
 
 public class TournamentUser
