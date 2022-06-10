@@ -29,9 +29,6 @@
             PlayerOneGames = playerOneGames;
             PlayerTwoGames = playerTwoGames;
 
-            if (playerOneGames.Count <= 1 || playerTwoGames.Count <= 1)
-                return;
-
             FirstPlayer = playerOneGames[0].User;
             SecondPlayer = playerTwoGames[0].User;
         }

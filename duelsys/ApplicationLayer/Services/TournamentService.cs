@@ -244,6 +244,10 @@ public class TournamentService
         {
             throw;
         }
+        catch (InvalidTournamentLeaderboardException)
+        {
+            throw;
+        }
         catch (InvalidMatchException)
         {
             throw;
@@ -251,6 +255,27 @@ public class TournamentService
         catch (Exception)
         {
             throw new Exception("Failed getting leaderboard");
+        }
+    }
+
+    public Dictionary<int, UserBase> GetMatchWinners(int tId)
+    {
+        try
+        {
+            var t = TournamentStore.GetTournamentById(tId);
+            return t.GetMatchWinners();
+        }
+        catch (InvalidTournamentException)
+        {
+            throw;
+        }
+        catch (InvalidMatchException)
+        {
+            throw;
+        }
+        catch (Exception)
+        {
+            throw new Exception("Failed getting winners for matches");
         }
     }
 }

@@ -16,40 +16,63 @@
 <div>start date: <b>@Model.Tournament.StartingDate.ToString("dddd, dd MMMM yyyy")</b></div>
 <div>ending date: <b>@Model.Tournament.EndingDate.ToString("dddd, dd MMMM yyyy")</b></div>
 
-<table class="leaderboard">
-    <tr>
-        <th class="rank">Rank</th>
-        <th class="player">Player</th>
-        <th class="won">Won</th>
-        <th class="lost">Lost</th>
-    </tr>
-    @for (int i = 0; i < Model.TournamentLeaderboard.Count; i++)
-    {
-        var user = Model.TournamentLeaderboard[i];
+@if (Model.TournamentLeaderboard.Count >= 3)
+{
+    <table class="leaderboard">
         <tr>
-            <td>@(i+1)</td>
-            <td>@(user.FirstName + " " + user.LastName)</td>
-            <td>@user.WonGames</td>
-            <td>@user.LostGames</td>
-
+            <th class="rank">Rank</th>
+            <th class="player">Player</th>
+            <th class="won">Won</th>
+            <th class="lost">Lost</th>
         </tr>
-    }
-</table>
+        @for (int i = 0; i < Model.TournamentLeaderboard.Count; i++)
+        {
+            var user = Model.TournamentLeaderboard[i];
+            <tr>
+                <td>@(i+1)</td>
+                <td>@(user.FirstName + " " + user.LastName)</td>
+                <td>@user.WonGames</td>
+                <td>@user.LostGames</td>
 
-<table class="matches">
-    <tr>
-        <th class="match-index">#</th>
-        <th class="matches">Matches</th>
-        <th class="match-winner">Winner</th>
-    </tr>
-    @for (int i = 0; i < Model.Tournament.Matches.Count; i++)
-    {
-        var match = Model.Tournament.Matches[i];
+            </tr>
+        }
+    </table>
+}
+else
+{
+    <h3>Not enough games played, so there is no LEADERBOARD</h3>
+}
+
+@if (Model.Tournament.Matches.Count > 0)
+{
+
+    <table class="matches">
         <tr>
-            <td>@(i+1)</td>
-            <td>@(match.FirstPlayer.Names + " vs " + match.SecondPlayer.Names)</td>
-            <td>@(Model.Tournament.GetMatchWinner(match.Id).Names)</td>
+            <th class="match-index">#</th>
+            <th class="matches">Matches</th>
+            <th class="match-winner">Winner</th>
+            <th class="match-date">Play date</th>
         </tr>
-    }
-</table>
-
+        @for (int i = 0; i < Model.Tournament.Matches.Count; i++)
+        {
+            var match = Model.Tournament.Matches[i];
+            <tr>
+                <td>@(i+1)</td>
+                <td>@(match.FirstPlayer.Names + " vs " + match.SecondPlayer.Names)</td>
+                @if (Model.TournamentMatchWinners.ContainsKey(match.Id))
+                {
+                    <td>@(Model.TournamentMatchWinners[match.Id].Names)</td>
+                }
+                else
+                {
+                    <td>Not played yet</td>
+                }
+                <td>@(match.Date.ToString("dddd, dd MMMM yyyy"))</td>
+            </tr>
+        }
+    </table>
+}
+else
+{
+    <h3>Not schedule generated for this match</h3>
+}

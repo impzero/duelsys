@@ -1,4 +1,6 @@
-﻿namespace duelsys;
+﻿using duelsys.Exceptions;
+
+namespace duelsys;
 
 public class TournamentBase
 {
@@ -117,18 +119,39 @@ public class Tournament : TournamentBase
         return winner;
     }
 
+    public Dictionary<int, UserBase> GetMatchWinners()
+    {
+        var winners = new Dictionary<int, UserBase>();
+        foreach (var match in Matches)
+        {
+            UserBase winner = default;
+            if (Sport.WinnerGetter != null)
+                winner = match.GetWinner(Sport.WinnerGetter);
+
+            winners.Add(match.Id, winner);
+        }
+        return winners;
+    }
+
     public Dictionary<int, LeaderboardUser> GetLeaderboard()
     {
         if (Sport.MatchResultValidator is null)
             throw new Exception("Match result validator not initialized");
 
         if (Matches.Count < 1)
-            throw new InvalidTournamentException("Tournament should have a schedule before generating a leaderboard");
+            throw new InvalidTournamentLeaderboardException("Tournament should have a schedule before generating a leaderboard");
 
-        Matches.ForEach(m =>
+        try
         {
-            Sport.MatchResultValidator.AssertCorrectMatchResult(m.PlayerOneGames, m.PlayerTwoGames);
-        });
+            Matches.ForEach(m =>
+            {
+                Sport.MatchResultValidator.AssertCorrectMatchResult(m.PlayerOneGames, m.PlayerTwoGames);
+            });
+        }
+        catch (InvalidMatchException e)
+        {
+            throw new InvalidTournamentLeaderboardException(e.Message);
+        }
 
         if (Sport.WinnerGetter is null)
             throw new Exception("Winner getter not initialized");
