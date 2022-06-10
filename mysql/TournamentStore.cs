@@ -192,7 +192,8 @@ GROUP BY utm.tournament_id;";
         const string matchesQuery = @"SELECT m.id, m.date, g.id, g.result, u.id, u.first_name, u.last_name
 FROM `match` m
          LEFT JOIN game g ON m.id = g.match_id
-         LEFT JOIN users u ON u.id = g.user_id
+         JOIN user_tournament_match utm ON utm.match_id = m.id
+         LEFT JOIN users u ON u.id = utm.user_id
 WHERE FIND_IN_SET(m.id, @match_ids)";
 
         reader = MySqlHelper.ExecuteReader(ConnectionUrl, matchesQuery,

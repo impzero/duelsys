@@ -124,11 +124,17 @@ public class Tournament : TournamentBase
         var winners = new Dictionary<int, UserBase>();
         foreach (var match in Matches)
         {
-            UserBase winner = default;
-            if (Sport.WinnerGetter != null)
-                winner = match.GetWinner(Sport.WinnerGetter);
+            try
+            {
+                UserBase winner = default;
+                if (Sport.WinnerGetter != null)
+                    winner = match.GetWinner(Sport.WinnerGetter);
 
-            winners.Add(match.Id, winner);
+                winners.Add(match.Id, winner);
+            }
+            catch (Exception)
+            {
+            }
         }
         return winners;
     }

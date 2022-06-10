@@ -31,8 +31,6 @@ public class TournamentModel : PageModel
             var kv = tService.GetLeaderboard(TournamentId);
             foreach (var kvp in kv)
                 TournamentLeaderboard.Add(kvp.Value);
-
-            TournamentMatchWinners = tService.GetMatchWinners(TournamentId);
         }
         catch (InvalidTournamentLeaderboardException)
         {
@@ -41,6 +39,8 @@ public class TournamentModel : PageModel
         {
             Error = e.Message;
         }
+
+        TournamentMatchWinners = tService.GetMatchWinners(TournamentId);
     }
 }
 
