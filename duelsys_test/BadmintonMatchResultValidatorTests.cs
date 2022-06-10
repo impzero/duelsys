@@ -6,7 +6,7 @@ using System.Collections.Generic;
 namespace duelsys_test;
 
 [TestClass]
-public class BadmintonMatchResultValidator
+public class BadmintonMatchResultValidatorTests
 {
     [TestMethod]
     public void AssertCorrectMatchResultInserted_ValidMatch()
