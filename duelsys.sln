@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32210.238
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "web", "\web\web.csproj", "{6F897E10-057C-4764-A91B-826F061A8BD2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "web", "web\web.csproj", "{6F897E10-057C-4764-A91B-826F061A8BD2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "duelsys", "duelsys\duelsys.csproj", "{4ED0D986-7B8C-4098-8A8C-76C79733DBD2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "desktop", "\desktop\desktop.csproj", "{2FDA63C2-E8C9-4EAA-8DB9-77FE63DAD25A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "desktop", "desktop\desktop.csproj", "{2FDA63C2-E8C9-4EAA-8DB9-77FE63DAD25A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "mysql", "\mysql\mysql.csproj", "{A4E41A9F-4832-4833-9E08-5ECB26DA8AD3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "mysql", "mysql\mysql.csproj", "{A4E41A9F-4832-4833-9E08-5ECB26DA8AD3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "duelsys_test", "\duelsys_test\duelsys_test.csproj", "{76BD9021-5AA9-4E4E-A846-3582D36836AC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "duelsys_test", "duelsys_test\duelsys_test.csproj", "{76BD9021-5AA9-4E4E-A846-3582D36836AC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
